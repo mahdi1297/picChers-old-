@@ -1,0 +1,24 @@
+.deactive {
+  transform: translateX(-580px)!important;
+  transition: transform 0.2s ease-in;
+}
+.active {
+  transform: translateX(0);
+  transition: transform 0.1s ease-in;
+}
+.deactive-step-two {
+  background-color: black;
+  transform: translateX(-970px);
+  transition: transform 0.1s ease-in;
+}
+.active-step-two {
+  background-color: red;
+  transform: translateX(0);
+  transition: transform 0.2s ease-in;
+}
+.open {
+  display: block !important;
+}
+.close {
+  display: none !important;
+}

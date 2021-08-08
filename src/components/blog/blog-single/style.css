@@ -1,0 +1,49 @@
+p {
+  line-height: 30px;
+  color: #404040;
+}
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #c490e4;
+}
+pre {
+  border: 1px solid #ccc;
+  line-height: 35px;
+  padding: 20px;
+  background: #fbfbfb;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+.container img {
+  max-width: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px 10px;
+  white-space: nowrap;
+  font-size: 15px;
+  z-index: 9999999999999999999999999999999 !important;
+  display: block;
+  right: 40px;
+  margin-top: -42px;
+  background: #cdf0ea;
+  box-shadow: 0 0 20px rgb(8, 21, 66, 12%);
+  border-radius: 3px;
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.2s;
+}
+.active-tooltip{
+    opacity: 1;
+    transition: opacity 0.2s;
+    transform: translateX(0);
+    transition: all 0.2s;
+}
+.deactive-tooltip{
+    transform: translateX(-20px)!important;
+    transition: transform 0.2s;
+}

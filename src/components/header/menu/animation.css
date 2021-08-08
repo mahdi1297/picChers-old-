@@ -1,0 +1,18 @@
+.active{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.1s, opacity 0.1s linear;
+}
+.disactive{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.1s, opacity 0.1s linear;
+}
+.main_avatar-list{
+    /* border-bottom: 1px solid #CDF0EA!important; */
+    padding: 8px!important;
+    margin-bottom: 10px;
+}
+.main_avatar-list:hover{
+    background: #fff!important;
+}
