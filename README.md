@@ -8,7 +8,8 @@ this is a website written in technologies like Reactjs, Redux, Nodejs, Expressjs
 
 ### Installation and setup
 
-First, clone the repo or download manually. then:
+First, clone the repo or download manually and download MongodbCompass on your system.
+then:
 
 ```sh
 npm install
