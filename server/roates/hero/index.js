@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import { getHeroImage, insertHeroImage } from "./../../models/hero";
+import { body, validationResult } from "express-validator";
+
 const route = express.Router();
-const { getHeroImage, insertHeroImage } = require("./../../models/hero");
-const { body, validationResult } = require("express-validator");
 
 route.get("/", async (req, res) => {
   const hero = await getHeroImage();
@@ -29,4 +30,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

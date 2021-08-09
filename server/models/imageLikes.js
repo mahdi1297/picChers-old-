@@ -1,6 +1,4 @@
-const {
-  ImageLikeSchema,
-} = require("./../data-access/schemas/imageLikesSchema");
+import ImageLikeSchema from "./../data-access/schemas/imageLikesSchema";
 
 const insertLikeImage = (clientData) => {
   if (!clientData) return false;

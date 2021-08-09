@@ -1,11 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const helmets = require("helmet");
-const cors = require("cors");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-const routes = require("./roates/route");
-const sts = require("strict-transport-security");
+import express from "express";
+import bodyParser from "body-parser";
+import helmets from "helmet";
+import cors from "cors";
+import morgan from "morgan";
+import mongoose from "mongoose";
+import routes from "./roates/route";
+import sts from "strict-transport-security";
+import toobusy from './../middlewares/tobusy'
 
 const app = express();
 
@@ -23,17 +24,15 @@ const globalSTS = sts.getSTS({ "max-age": { days: 30 } });
 
 app.use(globalSTS);
 
-// app.use(hpp());
 
 app.use(helmets());
 app.use(cors());
 
 app.use(globalSTS);
+app.use(toobusy)
 
-//MongoDb Connection Setup
 
 app.use(bodyParser.json({ limit: "50mb" }));
-
 app.use(
   bodyParser.urlencoded({
     limit: "50mb",
@@ -53,10 +52,5 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("tiny"));
 }
 
-//socket io
-
-
-
 app.use("/", routes);
-
 app.listen(PORT, () => console.log("running"));

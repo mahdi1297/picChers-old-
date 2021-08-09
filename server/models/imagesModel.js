@@ -1,4 +1,4 @@
-const { ImagesSchema } = require("./../data-access/schemas/imagesSchema");
+import ImagesSchema from "./../data-access/schemas/imagesSchema";
 
 const getImageById = (_id) => {
   if (!_id) return false;
@@ -79,7 +79,7 @@ const updateImageByLike = (imageId, likes) => {
   });
 };
 
-module.exports = {
+export {
   getImageById,
   insertImage,
   getAllImages,

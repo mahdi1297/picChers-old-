@@ -1,15 +1,13 @@
-var toobusy = require('toobusy-js'),
-    express = require('express');
- 
-var app = express();
- 
-// middleware which blocks requests when we're too busy
-app.use(function(req, res, next) {
-  if (toobusy()) {
+import toobusy from "toobusy-js";
+
+export default (req, res, next) => {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.NODE_ENV !== "test" &&
+    toobusy()
+  ) {
     res.end("Sorry!! i am busy now, please try again later");
   } else {
     next();
   }
-});
-
-module.exports = app;
+};

@@ -1,13 +1,15 @@
-const express = require("express");
+/* eslint-disable import/first */
+import express from "express";
 const route = express.Router();
-const {
+
+import { getUserById } from "./../../models/users";
+import { body, param, validationResult } from "express-validator";
+import {
   getAllImages,
   getImageById,
   insertImage,
   getRelatedImages,
-} = require("./../../models/imagesModel");
-const { getUserById } = require("./../../models/users");
-const { body, param, validationResult } = require("express-validator");
+} from "./../../models/imagesModel";
 
 route.get("/", async (req, res) => {
   const result = await getAllImages();
@@ -115,4 +117,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

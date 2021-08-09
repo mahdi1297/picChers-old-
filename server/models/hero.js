@@ -1,4 +1,4 @@
-const { HeroSchema } = require("./../data-access/schemas/heroSchema");
+import HeroSchema from "./../data-access/schemas/heroSchema";
 
 const getHeroImage = () => {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ const getHeroImage = () => {
 };
 
 const insertHeroImage = (image) => {
-    if(!image) return false;
+  if (!image) return false;
   return new Promise((resolve, reject) => {
     HeroSchema(image)
       .save()
@@ -23,7 +23,4 @@ const insertHeroImage = (image) => {
   });
 };
 
-module.exports = {
-  getHeroImage,
-  insertHeroImage
-};
+export { getHeroImage, insertHeroImage };

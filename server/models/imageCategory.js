@@ -1,6 +1,4 @@
-const {
-  ImageCategorySceham,
-} = require("./../data-access/schemas/imageCategoryScehama");
+import ImageCategorySceham from "./../data-access/schemas/imageCategoryScehama";
 
 const getAll = async () => {
   return new Promise((resolve, reject) => {
@@ -62,9 +60,4 @@ const update = (_id, isRemoved) => {
   });
 };
 
-module.exports = {
-  getSuitable,
-  getAll,
-  create,
-  update,
-};
+export { getSuitable, getAll, create, update };

@@ -1,12 +1,13 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getSuitable,
   getAll,
   create,
   update,
-} = require("./../../models/imageCategory");
+} from "./../../models/imageCategory";
+import { body, validationResult } from "express-validator";
+
 const route = express.Router();
-const { body, validationResult } = require("express-validator");
 
 route.get("/", async (req, res) => {
   const imageCategories = await getAll();
@@ -63,4 +64,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

@@ -1,8 +1,4 @@
-const {
-  BlogCategorySchema,
-} = require("./../data-access/schemas/blogCategorySchema");
-
-
+import BlogCategorySchema from "./../data-access/schemas/blogCategorySchema";
 
 const getAllImages = () => {
   return new Promise((resolve, reject) => {
@@ -29,7 +25,4 @@ const insertBlogCategoryToDb = (blogCatObj) => {
   });
 };
 
-module.exports = {
-  insertBlogCategoryToDb,
-  getAllImages
-};
+export { insertBlogCategoryToDb, getAllImages };

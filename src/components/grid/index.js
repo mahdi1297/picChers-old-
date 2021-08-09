@@ -56,8 +56,6 @@ const GridCard = (props) => {
 
   }, [likes, ownerId]);
 
-  console.log(response)
-
   const addToPocketHandler = useCallback(() => {
     const finder = allDatas.filter((x) => x.id === id);
     const findSameSelectedPocket = selectPockets.find((x) => x.id === id);

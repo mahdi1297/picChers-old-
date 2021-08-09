@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose"
 const Schema = mongoose.Schema;
 
 const ImageLikeSchema = new Schema({
@@ -14,6 +14,4 @@ const ImageLikeSchema = new Schema({
   },
 });
 
-module.exports = {
-  ImageLikeSchema: mongoose.model("ImagesLikes", ImageLikeSchema),
-};
+export default mongoose.model("ImagesLikes", ImageLikeSchema)

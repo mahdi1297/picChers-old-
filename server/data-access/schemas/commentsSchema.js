@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose"
 const Schema = mongoose.Schema;
 
 let dateNow = Date.now();
@@ -67,6 +67,4 @@ const CommentSchema = new Schema({
   },
 });
 
-module.exports = {
-  CommentSchema: mongoose.model("Comments", CommentSchema),
-};
+export default mongoose.model("Comments", CommentSchema)

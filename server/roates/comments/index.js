@@ -1,13 +1,15 @@
-const express = require("express");
-const route = express.Router();
-const {
+import express from "express"
+import {
   insertComment,
   getCommentsBySlug,
   confirmComment,
   getAllComments,
   removeComment,
-} = require("./../../models/comments");
-const { body, param, validationResult } = require("express-validator");
+} from "./../../models/comments"
+import { body, param, validationResult } from "express-validator"
+
+const route = express.Router();
+
 
 route.get("/", async (req, res) => {
   try {
@@ -113,4 +115,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

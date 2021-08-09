@@ -1,19 +1,22 @@
-const express = require("express");
-const { body, param, validationResult } = require("express-validator");
-const route = express.Router();
-
-const {
+/* eslint-disable import/first */
+import express from "express";
+import { body, param, validationResult } from "express-validator";
+import {
   hashPassword,
   // comparePassword,
-} = require("./../../helper/bcrypt.helper");
-const {
+} from "./../../helper/bcrypt.helper";
+import {
   insertUser,
   getUserById,
   getUserByUsername,
   getAllUsers,
   updateUser,
-} = require("./../../models/users");
-const { getUserByOwnerId } = require("./../../models/imagesModel");
+} from "./../../models/users";
+import { getUserByOwnerId } from "./../../models/imagesModel";
+
+
+const route = express.Router();
+
 
 route.get("/", async (req, res) => {
   const users = await getAllUsers();
@@ -74,7 +77,7 @@ route.post(
     }
     const user = await getUserByUsername(username);
     const passwordFromDb = user && user._id ? user.password : null;
-    
+
     if (!passwordFromDb) {
       return res
         .status(404)
@@ -130,7 +133,7 @@ route.get(
 
 route.post(
   "/user-update",
-  body("id").exists().isLength({ min: 2, max: 300 }),
+  body("_id").exists().isLength({ min: 2, max: 300 }),
   body("name").exists().isLength({ min: 2, max: 300 }),
   body("lastname").exists().isLength({ min: 2, max: 300 }),
   body("description").exists().isLength({ min: 2, max: 1500 }),
@@ -139,7 +142,7 @@ route.post(
   async (req, res) => {
     const userObj = req.body;
     const id = userObj._id;
-
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -167,4 +170,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

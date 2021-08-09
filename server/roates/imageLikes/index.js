@@ -1,13 +1,13 @@
-const express = require("express");
-const route = express.Router();
-const {
+import express from "express";
+import {
   insertLikeImage,
   getLikeImagesByImageId,
   getLikeImagesByUserId,
-} = require("./../../models/imageLikes");
-const { updateImageByLike } = require("./../../models/imagesModel");
-const { body, param, validationResult } = require("express-validator");
+} from "./../../models/imageLikes";
+import { updateImageByLike } from "./../../models/imagesModel";
+import { body, param, validationResult } from "express-validator";
 
+const route = express.Router();
 route.get(
   "/:imageId",
   param("imageId").exists().isLength({ min: 2, max: 100 }),
@@ -46,8 +46,7 @@ route.post(
   "/",
   body("imageId").exists().isLength({ min: 2, max: 100 }),
   body("userId").exists().isLength({ min: 2, max: 100 }),
-  body("likeCount").exists().isLength({ min: 2, max: 100 }),
-  body("data").exists().isLength({ min: 2, max: 100 }),
+  body("likesCount").exists(),
   async (req, res) => {
     const imageId = req.body.imageId;
     const userId = req.body.userId;
@@ -71,4 +70,4 @@ route.post(
   }
 );
 
-module.exports = route;
+export default route;

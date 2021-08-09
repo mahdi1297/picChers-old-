@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose"
 const Schema = mongoose.Schema;
 
 const PocketSchema = new Schema({
@@ -22,6 +22,4 @@ const PocketSchema = new Schema({
   },
 });
 
-module.exports = {
-  PocketSchema: mongoose.model("Pockets", PocketSchema),
-};
+export default mongoose.model("Pockets", PocketSchema)

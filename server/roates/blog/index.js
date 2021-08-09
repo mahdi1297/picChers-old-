@@ -1,17 +1,18 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getAllBlogsByPagination,
   createBlog,
   getBlogBySlug,
   getAllBlogs,
   updateBlog,
-} = require("./../../models/blog");
-const {
+} from "./../../models/blog";
+import {
   insertBlogCategoryToDb,
   getAllImages,
-} = require("./../../models/blogCategory");
+} from "./../../models/blogCategory";
+import { body, param, query, validationResult } from "express-validator";
+
 const route = express.Router();
-const { body, param, query, validationResult } = require("express-validator");
 
 route.get("/", (req, res) => {
   res.json({ message: "this is home blog" });
@@ -130,4 +131,5 @@ route.post("/blog-category", async (req, res) => {
     createblogCategory,
   });
 });
-module.exports = route;
+
+export default route;
