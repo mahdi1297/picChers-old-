@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, lazy, Suspense } from "react";
+import PropTypes from "prop-types";
 import {
   Item,
   TopHovered,
@@ -10,7 +11,6 @@ import {
 } from "./style";
 import PhotographerCardInfo from "./photographerCardInfo";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
-import PropTypes from "prop-types";
 import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { addToPocketAction } from "./../../actions/pocketActions";
