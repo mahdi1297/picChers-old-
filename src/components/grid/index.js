@@ -41,8 +41,6 @@ const GridCard = (props) => {
   const [data, setData] = useState("");
   const [photographerModal, setPhotographerModal] = useState(false);
   const [likesAmount, setLikesAmounts] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const [response, setResponse] = useState("");
   const selectPockets = useSelector((store) => store.pocket);
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
