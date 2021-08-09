@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt"
 const saltRounds = 10;
 
 const hashPassword = (plainPassword) => {
@@ -18,7 +18,7 @@ const comparePassword = (plainPassword, passwordFromDb) => {
   });
 };
 
-module.exports = {
+export {
   hashPassword,
   comparePassword,
 };
