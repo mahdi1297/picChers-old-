@@ -1,15 +1,14 @@
-/* eslint-disable import/first */
-import express from "express";
-const route = express.Router();
-
-import { getUserById } from "./../../models/users";
-import { body, param, validationResult } from "express-validator";
-import {
+const express = require("express");
+const { getUserById } = require("./../../models/users");
+const { body, param, validationResult } = require( "express-validator");
+const {
   getAllImages,
   getImageById,
   insertImage,
   getRelatedImages,
-} from "./../../models/imagesModel";
+} = require( "./../../models/imagesModel");
+
+const route = express.Router();
 
 route.get("/", async (req, res) => {
   const result = await getAllImages();
@@ -22,13 +21,7 @@ route.get(
   async (req, res) => {
     const category = req.params.category;
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        message: "please send correct information",
-        errors: errors.array(),
-      });
-    }
+    console.log(category)
 
     const relatedImages = await getRelatedImages(category);
     console.log(relatedImages);
@@ -116,5 +109,4 @@ route.post(
     }
   }
 );
-
-export default route;
+module.exports =  route;

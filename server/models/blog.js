@@ -1,4 +1,4 @@
-import BlogSchema from "./../data-access/schemas/blogScehma";
+const {BlogSchema} = require("./../data-access/schemas/blogScehma");
 
 const getAllBlogs = () => {
   return new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ const createBlog = (blogObj) => {
   });
 };
 
-export {
+module.exports =  {
   getAllBlogsByPagination,
   getAllBlogs,
   createBlog,

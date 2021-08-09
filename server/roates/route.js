@@ -1,11 +1,11 @@
-import express from "express";
-import userRoutes from "./user";
-import imagesRoutes from "./image";
-import blogRoutes from "./blog";
-import heroRouter from "./hero";
-import commentsRouter from "./comments";
-import imageLikesRoue from "./imageLikes";
-import imageCategoryRouter from "./imageCategory";
+const express = require("express");
+const userRoutes = require("./user");
+const imagesRoutes = require("./image");
+const blogRoutes = require("./blog");
+const heroRouter = require("./hero");
+const commentsRouter = require("./comments");
+const imageLikesRoue = require("./imageLikes");
+const imageCategoryRouter = require("./imageCategory");
 
 const route = express.Router();
 
@@ -27,4 +27,4 @@ route.use("/", (req, res) => {
   res.json({ message: "this is home" });
 });
 
-export default route;
+module.exports = route;

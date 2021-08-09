@@ -1,11 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   getSuitable,
   getAll,
   create,
   update,
-} from "./../../models/imageCategory";
-import { body, validationResult } from "express-validator";
+} = require( "./../../models/imageCategory");
+const { body, validationResult } = require( "express-validator");
 
 const route = express.Router();
 
@@ -64,4 +64,4 @@ route.post(
   }
 );
 
-export default route;
+module.exports =  route;

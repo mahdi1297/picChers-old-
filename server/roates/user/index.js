@@ -1,22 +1,19 @@
-/* eslint-disable import/first */
-import express from "express";
-import { body, param, validationResult } from "express-validator";
-import {
+const express = require("express");
+const { body, param, validationResult } = require("express-validator");
+const {
   hashPassword,
   // comparePassword,
-} from "./../../helper/bcrypt.helper";
-import {
+} = require("./../../helper/bcrypt.helper");
+const {
   insertUser,
   getUserById,
   getUserByUsername,
   getAllUsers,
   updateUser,
-} from "./../../models/users";
-import { getUserByOwnerId } from "./../../models/imagesModel";
-
+} = require("./../../models/users");
+const { getUserByOwnerId } = require("./../../models/imagesModel");
 
 const route = express.Router();
-
 
 route.get("/", async (req, res) => {
   const users = await getAllUsers();
@@ -142,7 +139,7 @@ route.post(
   async (req, res) => {
     const userObj = req.body;
     const id = userObj._id;
-    
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -170,4 +167,4 @@ route.post(
   }
 );
 
-export default route;
+module.exports =  route;

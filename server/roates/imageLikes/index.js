@@ -1,11 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   insertLikeImage,
   getLikeImagesByImageId,
   getLikeImagesByUserId,
-} from "./../../models/imageLikes";
-import { updateImageByLike } from "./../../models/imagesModel";
-import { body, param, validationResult } from "express-validator";
+} = require( "./../../models/imageLikes");
+const { updateImageByLike } = require( "./../../models/imagesModel");
+const { body, param, validationResult } = require( "express-validator");
 
 const route = express.Router();
 route.get(
@@ -70,4 +70,4 @@ route.post(
   }
 );
 
-export default route;
+module.exports =route;

@@ -59,7 +59,7 @@
     "url-slug": "^3.0.2"
   },
   "scripts": {
-    "server": "nodemon --exec babel-node ./server/index",
+    "server": "nodemon  ./server/index",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

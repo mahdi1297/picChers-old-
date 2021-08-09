@@ -1,16 +1,16 @@
-import express from "express";
-import {
+const express =require( "express")
+const {
   getAllBlogsByPagination,
   createBlog,
   getBlogBySlug,
   getAllBlogs,
   updateBlog,
-} from "./../../models/blog";
-import {
+} =require("./../../models/blog");
+const {
   insertBlogCategoryToDb,
   getAllImages,
-} from "./../../models/blogCategory";
-import { body, param, query, validationResult } from "express-validator";
+} = require("./../../models/blogCategory");
+const { body, param, query, validationResult } = require("express-validator");
 
 const route = express.Router();
 
@@ -132,4 +132,4 @@ route.post("/blog-category", async (req, res) => {
   });
 });
 
-export default route;
+module.exports = route;

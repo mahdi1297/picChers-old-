@@ -1,4 +1,4 @@
-import UserSchema from "./../data-access/schemas/userSChema";
+const {UserSchema} = require("./../data-access/schemas/userSChema") ;
 
 const getAllUsers = () => {
   return new Promise((resolve, reject) => {
@@ -82,4 +82,4 @@ const insertUser = (imageObj) => {
   });
 };
 
-export { getAllUsers, getUserByUsername, insertUser, getUserById, updateUser };
+module.exports =  { getAllUsers, getUserByUsername, insertUser, getUserById, updateUser };

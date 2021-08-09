@@ -21,11 +21,11 @@ const Hero = () => {
     const fetchData = async () => {
       try {
         setTimeout(async () => {
+          console.log(typeof searchedVal)
           const response = await getCall(`images/categories/${searchedVal}`);
           setData(response.data.relatedImages);
         }, 1500);
       } catch (err) {
-        console.log(err);
       }
     };
 

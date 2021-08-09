@@ -13,17 +13,21 @@ const breakpointColumnsObj = {
   700: 1,
   500: 1,
 };
-const ImagePageMain = ({ tags }) => {
+const ImagePageMain = ({ category }) => {
   const [data, setData] = useState("");
 
+  //need to be solved
   useEffect(() => {
-    const fetchedData = async (tags) => {
-      const response = await getCall(`images/categories/${tags}`);
+    const fetchedData = async (category) => {
+      const response = await getCall(`images/categories/${category}`);
       setData(response);
     };
-    fetchedData(tags);
-  }, [tags]);
+    category.forEach((item) => {
+      fetchedData(item);
+    });
+  }, [category]);
 
+  console.log(data);
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}

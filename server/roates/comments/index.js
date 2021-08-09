@@ -1,12 +1,12 @@
-import express from "express"
-import {
+const express =require( "express")
+const {
   insertComment,
   getCommentsBySlug,
   confirmComment,
   getAllComments,
   removeComment,
-} from "./../../models/comments"
-import { body, param, validationResult } from "express-validator"
+}  =require ("./../../models/comments")
+const { body, param, validationResult }  =require ("express-validator")
 
 const route = express.Router();
 
@@ -115,4 +115,4 @@ route.post(
   }
 );
 
-export default route;
+module.exports = route;

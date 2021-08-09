@@ -1,6 +1,6 @@
-import express from "express";
-import { getHeroImage, insertHeroImage } from "./../../models/hero";
-import { body, validationResult } from "express-validator";
+const express = require("express");
+const { getHeroImage, insertHeroImage } = require("./../../models/hero");
+const { body, validationResult } = require("express-validator");
 
 const route = express.Router();
 
@@ -29,5 +29,4 @@ route.post(
     res.json({ message: "successfully created hero" });
   }
 );
-
-export default route;
+module.exports = route;

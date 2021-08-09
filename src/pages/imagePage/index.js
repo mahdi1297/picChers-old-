@@ -36,7 +36,7 @@ const ImagePage = () => {
 
   return (
     <>
-    <Head title="image page | pickchers" />
+      <Head title="image page | pickchers" />
       <MarginTop margin="100">
         <Container>
           <Row justify="space-between">
@@ -73,9 +73,7 @@ const ImagePage = () => {
             Related Photos
           </TitleH2>
           {data && !isLoading && !isFetching ? (
-            <ImagePageMain
-              tags={[data.data.result.tags]}
-            />
+            <ImagePageMain category={[data.data.result.tags]} />
           ) : (
             <SmallSpinner />
           )}

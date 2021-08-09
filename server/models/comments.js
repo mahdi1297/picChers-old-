@@ -1,4 +1,4 @@
-import CommentSchema from "./../data-access/schemas/commentsSchema";
+const {CommentSchema} = require( "./../data-access/schemas/commentsSchema")
 
 const getAllComments = () => {
   return new Promise((resolve, reject) => {
@@ -84,7 +84,7 @@ const insertComment = (commentObj) => {
   });
 };
 
-export {
+module.exports =  {
   removeComment,
   getAllComments,
   insertComment,

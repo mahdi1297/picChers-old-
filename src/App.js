@@ -4,17 +4,16 @@ import store from "./store";
 import RedirectHandler from "./RedirectHandler";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-require('dotenv').config()
+require("dotenv").config();
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      refetchOnReconnect: true
+      refetchOnReconnect: true,
     },
   },
 });
-
 
 //REDGATE SQL PROMPT
 function App() {
