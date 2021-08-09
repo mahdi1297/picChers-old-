@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import BlogItem from "../blog-item";
 import { Row } from "./../../../shared/elements/layout";
 import { ItemContainerBody } from "./../style";
@@ -14,26 +15,6 @@ const BlogContainer = ({ path, theme }) => {
   const { data, isLoading, isFetching } = useGet(
     `http://localhost:5000/blog/${path}`
   );
-
-  // const [scroll, setScroll] = useState(0);
-
-  // document.addEventListener("scroll", () =>
-  //   setScroll(Math.ceil(window.scrollY))
-  // );
-  // const fetchArea = document.getElementById("fetch-area");
-
-  // if (fetchArea !== null) {
-  //   if (scroll - 200 > Math.ceil(fetchArea.offsetTop)) {
-  //     console.log(scroll, Math.ceil(fetchArea.offsetTop));
-  //     // const fetcher = async () => {
-  //     //   const request = await axios.get(
-  //     //     `http://localhost:5000/blog/all-blogs/pagination?limit=${2}&skip=${1}`
-  //     //   );
-  //     //   console.log(request);
-  //     // };
-  //     // fetcher();
-  //   }
-  // }
 
   return (
     <>
@@ -76,6 +57,11 @@ const BlogContainer = ({ path, theme }) => {
       )}
     </>
   );
+};
+
+BlogContainer.propTypes = {
+  path: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 export default BlogContainer;

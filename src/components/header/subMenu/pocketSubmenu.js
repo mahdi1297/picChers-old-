@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { SubList, List } from "./style";
 import { Row } from "./../../../shared/elements/layout";
@@ -32,6 +33,9 @@ const PocketSubmenu = ({ showPocketWindow }) => {
       </Link>
     </SubList>
   );
+};
+PocketSubmenu.propTypes = {
+  showPocketWindow: PropTypes.bool.isRequired,
 };
 
 export default PocketSubmenu;

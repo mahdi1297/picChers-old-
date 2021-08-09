@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Currentlysale } from "./../../../../data/apex";
 import ApexCharts from "react-apexcharts";
 import { Footer } from "./style";
@@ -55,6 +56,13 @@ const HomeChart = ({ apexData, isLoading, isFetching, totalLikes }) => {
       )}
     </Row>
   );
+};
+
+HomeChart.propTypes = {
+  apexData: PropTypes.array,
+  isLoading: PropTypes.bool,
+  isFetching: PropTypes.bool,
+  totalLikes: PropTypes.number,
 };
 
 export default HomeChart;

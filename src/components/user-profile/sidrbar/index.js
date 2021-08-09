@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Image from "../../../shared/elements/image";
-import PropTypes from "prop-types";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 import {
   Body,

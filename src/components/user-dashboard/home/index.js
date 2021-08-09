@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Container } from "../style";
 import { Body, Section } from "./style";
 import { Row } from "../../../shared/elements/layout";
@@ -24,8 +25,8 @@ const UserDashboardHome = ({ currentUser }) => {
                 ) : (
                   <HomeChart
                     apexData={data && [12, 38]}
-                    isLoading={isLoading & isLoading}
-                    isFetching={isFetching & isFetching}
+                    isLoading={isLoading ? true : false}
+                    isFetching={isFetching ? true : false}
                     totalLikes={currentUser && currentUser.totallikes}
                   />
                 )}
@@ -40,5 +41,11 @@ const UserDashboardHome = ({ currentUser }) => {
     </>
   );
 };
+
+
+UserDashboardHome.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+};
+
 
 export default UserDashboardHome;

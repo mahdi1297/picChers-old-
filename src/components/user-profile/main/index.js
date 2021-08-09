@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
+import MasonryContainer from "./Masonry";
+import useGet from "../../../queries/useGet";
 import Image from "./../../../shared/elements/image";
-import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
 import { Body, Suggestion, SuggestionBody, MasornryBody } from "./style";
 import { TitleH2 } from "./../../../shared/elements/title";
 import { Link } from "react-router-dom";
 import { Col } from "./../../../shared/elements/layout";
 import { suggestion } from "../../../DUMM_DATA";
-import useGet from "../../../queries/useGet";
 import { useSelector } from "react-redux";
-import MasonryContainer from "./Masonry";
+import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
 
 const UserProfleMain = ({
   isData,
@@ -65,6 +66,15 @@ const UserProfleMain = ({
       )}
     </Body>
   );
+};
+
+UserProfleMain.propTypes = {
+  isData: PropTypes.bool.isRequired,
+  ownerId: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 export default UserProfleMain;

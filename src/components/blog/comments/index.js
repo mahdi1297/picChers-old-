@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Image from "./../../../shared/elements/image";
 import {
   Body,
@@ -12,6 +13,7 @@ import {
 } from "./style";
 import { Col, Row } from "./../../../shared/elements/layout";
 import useGet from "./../../../queries/useGet";
+
 
 const BlogComments = ({ blogSlug, theme }) => {
   const { data } = useGet(`http://localhost:5000/comments/${blogSlug}`);
@@ -64,6 +66,11 @@ const BlogComments = ({ blogSlug, theme }) => {
         ))}
     </>
   );
+};
+
+BlogComments.propTypes = {
+  blogSlug: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 export default BlogComments;

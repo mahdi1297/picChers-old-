@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Alert from "../../../shared/elements/alert";
 import useGet from "../../../queries/useGet";
 import Swal from "sweetalert2";
@@ -12,6 +13,7 @@ import { colors } from "./../../../shared/theme/color";
 import { size } from "../../../shared/theme/size";
 import { Button } from "./../../../shared/elements/button";
 import { postCall } from "../../../api/methods";
+
 
 const UserNewPhoto = ({ id }) => {
   const {
@@ -115,6 +117,11 @@ const UserNewPhoto = ({ id }) => {
       </Container>
     </div>
   );
+};
+
+
+UserNewPhoto.propTypes = {
+  id: PropTypes.string.isRequired,
 };
 
 export default UserNewPhoto;

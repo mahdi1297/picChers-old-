@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from 'prop-types'
 import { Container, Row } from "../../../shared/elements/layout";
 import { TitleH1 } from "../../../shared/elements/title";
 import { colors } from "../../../shared/theme/color";
@@ -8,6 +9,7 @@ import { Button } from "../../../shared/elements/button";
 import { MarginTop } from "../../../shared/elements/layout";
 import { useMutation } from "react-query";
 import { getCall, postCall } from "./../../../api/methods";
+
 
 const UserAccountSettings = ({ currentUser }) => {
   const [nameInpVal, setNameInpVal] = useState("");
@@ -117,6 +119,10 @@ const UserAccountSettings = ({ currentUser }) => {
       )}
     </Container>
   );
+};
+
+UserAccountSettings.propTypes = {
+  currentUser: PropTypes.object.isRequired,
 };
 
 export default UserAccountSettings;

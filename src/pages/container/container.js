@@ -59,7 +59,7 @@ const Container = () => {
                 ownerId={item.ownerId}
                 isShownInUserDashboard={false}
                 theme={theme}
-                currentUser={login && login && login._id}
+                currentUser={login && login._id}
               />
             ))}
         </Masonry>

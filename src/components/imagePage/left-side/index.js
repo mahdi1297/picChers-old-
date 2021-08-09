@@ -1,5 +1,6 @@
 import React from "react";
 import { Row } from "../../../shared/elements/layout";
+import PropTypes from "prop-types";
 
 const LeftSideImagePage = ({ image, isLoading, isFetching, data }) => {
   return (
@@ -17,6 +18,14 @@ const LeftSideImagePage = ({ image, isLoading, isFetching, data }) => {
       </Row>
     </>
   );
+};
+
+
+LeftSideImagePage.propTypes = {
+  data: PropTypes.bool,
+  image: PropTypes.string,
+  isFetching: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 
 export default LeftSideImagePage;

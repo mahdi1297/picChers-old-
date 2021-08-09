@@ -16,6 +16,7 @@ import { Col } from "../../../shared/elements/layout";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 import { Link } from "react-router-dom";
 
+
 const BlogSearch = ({ onclick, searchedVal }) => {
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(false);

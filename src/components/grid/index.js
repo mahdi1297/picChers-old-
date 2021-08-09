@@ -10,6 +10,7 @@ import {
 } from "./style";
 import PhotographerCardInfo from "./photographerCardInfo";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
+import PropTypes from "prop-types";
 import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { addToPocketAction } from "./../../actions/pocketActions";
@@ -53,7 +54,6 @@ const GridCard = (props) => {
   useEffect(() => {
     setLikesAmounts(likes);
     fetchApi(ownerId);
-
   }, [likes, ownerId]);
 
   const addToPocketHandler = useCallback(() => {
@@ -167,6 +167,16 @@ const GridCard = (props) => {
       </Suspense>
     </>
   );
+};
+
+GridCard.propTypes = {
+  id: PropTypes.string,
+  image: PropTypes.string,
+  likes: PropTypes.number,
+  isShownInUserDashboard: PropTypes.bool,
+  ownerId: PropTypes.string,
+  theme: PropTypes.string,
+  currentUser: PropTypes.string,
 };
 
 export default React.memo(GridCard);

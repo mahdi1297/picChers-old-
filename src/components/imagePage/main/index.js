@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import { getCall } from "../../../api/methods";
 import GridCard from "./../../grid";
+import PropTypes from "prop-types";
 
 const breakpointColumnsObj = {
   default: 3,
@@ -19,7 +20,7 @@ const ImagePageMain = ({ category }) => {
   //need to be solved
   useEffect(() => {
     const fetchedData = async (category) => {
-      const response = await getCall(`images/categories/${category}`);
+      const response = await getCall(`images/categories/$[tag1, tag2, tag3]`);
       setData(response);
     };
     category.forEach((item) => {
@@ -27,7 +28,6 @@ const ImagePageMain = ({ category }) => {
     });
   }, [category]);
 
-  console.log(data);
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
@@ -55,6 +55,10 @@ const ImagePageMain = ({ category }) => {
         ))}
     </Masonry>
   );
+};
+
+ImagePageMain.propTypes = {
+  category: PropTypes.array.isRequired,
 };
 
 export default ImagePageMain;

@@ -10,8 +10,10 @@ import {
   FiLinkedin,
   FiShare2,
 } from "react-icons/fi";
+import PropTypes from "prop-types";
 import Tag from "../../tag";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
+
 
 const RightSideImagePage = ({
   data,
@@ -92,5 +94,18 @@ const RightSideImagePage = ({
     </>
   );
 };
+
+
+RightSideImagePage.propTypes = {
+  data: PropTypes.bool,
+  owner: PropTypes.object,
+  likes: PropTypes.number,
+  title: PropTypes.string,
+  tags: PropTypes.array,
+  isFetching: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  theme: PropTypes.string,
+};
+
 
 export default RightSideImagePage;

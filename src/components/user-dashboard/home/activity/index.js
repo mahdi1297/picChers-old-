@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { H2 } from "../../../../shared/elements/title/style";
 import { Body, SubData } from "./style";
 import { colors } from "../../../../shared/theme/color";
@@ -12,6 +13,7 @@ import {
   FiLink,
   FiEdit,
 } from "react-icons/fi";
+
 
 const Activity = ({currentUser}) => {
   return (
@@ -60,6 +62,11 @@ const Activity = ({currentUser}) => {
       </SubData>
     </Body>
   );
+};
+
+
+Activity.propTypes = {
+  currentUser: PropTypes.object.isRequired,
 };
 
 export default Activity;

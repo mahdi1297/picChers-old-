@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Card, CardHeader, CardBody, Category } from "./../style";
 import Image from "./../../../shared/elements/image";
 import { Link } from "react-router-dom";
@@ -35,6 +36,14 @@ const BlogItem = ({ title, slug, thumbnail, category, theme }) => {
       </CardBody>
     </Card>
   );
+};
+
+BlogItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 export default BlogItem;
