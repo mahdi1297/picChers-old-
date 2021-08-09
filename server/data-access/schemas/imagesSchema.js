@@ -5,10 +5,14 @@ const ImagesSchema = new Schema({
   path: {
     type: String,
     required: true,
+    minLength:2,
+    maxLength:2000
   },
   link: {
     type: String,
     required: true,
+    minLength:2,
+    maxLength:2000
   },
   likes: {
     type: Number,
@@ -21,6 +25,8 @@ const ImagesSchema = new Schema({
   alt: {
     type: String,
     required: true,
+    minLength:2,
+    maxLength:450
   },
   tags: {
     type: Object,
@@ -29,6 +35,8 @@ const ImagesSchema = new Schema({
   title: {
     type: String,
     required: true,
+    minLength:2,
+    maxLength:450
   },
 });
 

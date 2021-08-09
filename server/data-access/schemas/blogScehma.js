@@ -35,6 +35,8 @@ const BlogSchema = new Schema({
   content: {
     type: Object,
     required: true,
+    minLength: 5,
+    maxLength: 50000
   },
   authername: {
     type: String,

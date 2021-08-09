@@ -5,8 +5,8 @@ const {
   create,
   update,
 } = require("./../../models/imageCategory");
-
 const route = express.Router();
+const { body, validationResult } = require("express-validator");
 
 route.get("/", async (req, res) => {
   const imageCategories = await getAll();
@@ -18,26 +18,49 @@ route.get("/all", async (req, res) => {
   res.json({ message: "image categories", imageCategories });
 });
 
-route.post("/", async (req, res) => {
-  const { title, slug } = req.body;
-  if (!title || !slug) return res.status(400).json({ message: "Bad request" });
+route.post(
+  "/",
+  body("title").exists().isLength({ min: 2, max: 450 }),
+  body("slug").exists().isLength({ min: 2, max: 550 }),
+  async (req, res) => {
+    const { title, slug } = req.body;
 
-  console.log(title, slug);
-  const data = {
-    title: title,
-    slug: slug,
-  };
-  const request = await create(data);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "please send correct information",
+        errors: errors.array(),
+      });
+    }
 
-  res.json({ message: "image categories", request });
-});
+    const data = {
+      title: title,
+      slug: slug,
+    };
+    const request = await create(data);
+    res.json({ message: "image categories", request });
+  }
+);
 
-route.post("/update", async (req, res) => {
-  const {_id, isRemoved} = req.body;
-  if (!_id) return res.status(400).json({ message: "Bad request" });
-  const request = await update(_id, isRemoved);
+route.post(
+  "/update",
+  body("_id").exists().isLength({ min: 2, max: 60 }),
+  body("isRemoved").exists().isBoolean(),
+  async (req, res) => {
+    const { _id, isRemoved } = req.body;
 
-  res.json({ message: "image categories", request });
-});
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "something bad happends",
+        errors: errors.array(),
+      });
+    }
+
+    if (!_id) return res.status(400).json({ message: "Bad request" });
+    const request = await update(_id, isRemoved);
+    res.json({ message: "image categories", request });
+  }
+);
 
 module.exports = route;

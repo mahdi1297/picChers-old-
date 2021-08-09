@@ -7,6 +7,7 @@ const {
   getAllComments,
   removeComment,
 } = require("./../../models/comments");
+const { body, param, validationResult } = require("express-validator");
 
 route.get("/", async (req, res) => {
   try {
@@ -17,49 +18,99 @@ route.get("/", async (req, res) => {
   }
 });
 
-route.get("/:blogSlug", async (req, res) => {
-  const blogSlug = req.params.blogSlug;
-  if (!blogSlug) return res.status(400).json({ message: "bad request" });
-  const response = await getCommentsBySlug(blogSlug);
-  res.json({ response });
-});
+route.get(
+  "/:blogSlug",
+  param("blogSlug").exists().isLength({ min: 5, max: 3000 }),
+  async (req, res) => {
+    const blogSlug = req.params.blogSlug;
 
-route.post("/confirm-comment", async (req, res) => {
-  const isConfirmed = req.body.isConfirmed;
-  const _id = req.body._id;
-  if (!_id) return res.status(400).json({ message: "bad request" });
-  const request = await confirmComment(_id, isConfirmed);
-  res.json({ message: "done successfully", request });
-});
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "please send correct information",
+        errors: errors.array(),
+      });
+    }
 
-route.post("/indicate-comment", async (req, res) => {
-  const isRemoved = req.body.isRemoved;
-  const _id = req.body._id;
-  if (!_id) return res.status(400).json({ message: "bad request" });
-  const request = await removeComment(_id, isRemoved);
-  res.json({ message: "done successfully", request });
-});
-
-route.post("/", async (req, res) => {
-  const datas = {
-    blogSlug: req.body.blogSlug,
-    name: req.body.name,
-    lastname: req.body.lastname,
-    profileimage: req.body.profileimage,
-    content: req.body.content,
-    // likes: 0,
-    // creationDate: req.body.creationDate,
-  };
-  if (!datas) {
-    return res.status(400).json({ message: "Bad request" });
+    const response = await getCommentsBySlug(blogSlug);
+    res.json({ response });
   }
-  try {
-    const response = await insertComment(datas);
+);
 
-    res.json({ message: "comment submited successfully", response });
-  } catch (error) {
-    return res.status(400).json({ message: "bad request" });
+route.post(
+  "/confirm-comment",
+  body("isConfirmed").exists().isBoolean(),
+  body("_id").exists(),
+  async (req, res) => {
+    const isConfirmed = req.body.isConfirmed;
+    const _id = req.body._id;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "please send correct information",
+        errors: errors.array(),
+      });
+    }
+
+    const request = await confirmComment(_id, isConfirmed);
+    res.json({ message: "done successfully", request });
   }
-});
+);
+
+route.post(
+  "/indicate-comment",
+  body("isRemoved").exists().isBoolean(),
+  body("_id").exists(),
+  async (req, res) => {
+    const isRemoved = req.body.isRemoved;
+    const _id = req.body._id;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "please send correct information",
+        errors: errors.array(),
+      });
+    }
+
+    const request = await removeComment(_id, isRemoved);
+    res.json({ message: "done successfully", request });
+  }
+);
+
+route.post(
+  "/",
+  body("blogSlug").exists().isLength({ min: 5, max: 3000 }),
+  body("name").exists().isLength({ min: 5, max: 250 }),
+  body("lastname").exists().isLength({ min: 5, max: 250 }),
+  body("profileimage").exists().isLength({ min: 5, max: 3000 }),
+  body("content").exists().isLength({ min: 5, max: 50000 }),
+  async (req, res) => {
+    const datas = {
+      blogSlug: req.body.blogSlug,
+      name: req.body.name,
+      lastname: req.body.lastname,
+      profileimage: req.body.profileimage,
+      content: req.body.content,
+    };
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "Something wrong happened",
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      const response = await insertComment(datas);
+
+      res.json({ message: "comment submited successfully", response });
+    } catch (error) {
+      return res.status(400).json({ message: "bad request" });
+    }
+  }
+);
 
 module.exports = route;

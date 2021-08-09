@@ -19,7 +19,6 @@ import { postCall } from "../../api/methods";
 import { colors } from "../../shared/theme/color";
 import { Link } from "react-router-dom";
 import { getCall } from "../../api/methods";
-import socketIOClient  from 'socket.io-client'
 
 const Image = lazy(() => {
   return new Promise((resolve) => {
@@ -41,6 +40,7 @@ const GridCard = (props) => {
   const [data, setData] = useState("");
   const [photographerModal, setPhotographerModal] = useState(false);
   const [likesAmount, setLikesAmounts] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [response, setResponse] = useState("");
   const selectPockets = useSelector((store) => store.pocket);
   const dispatch = useDispatch();
@@ -53,10 +53,7 @@ const GridCard = (props) => {
   useEffect(() => {
     setLikesAmounts(likes);
     fetchApi(ownerId);
-    const socket = socketIOClient('http://localhost:5000/');
-    socket.on("request", data => {
-      console.log(data)
-    });
+
   }, [likes, ownerId]);
 
   console.log(response)
