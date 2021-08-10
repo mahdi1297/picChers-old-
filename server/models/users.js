@@ -1,4 +1,5 @@
-const {UserSchema} = require("./../data-access/schemas/userSChema") ;
+const { UserSchema } = require("./../data-access/schemas/userSChema");
+const { ImagesSchema } = require("./../data-access/schemas/imagesSchema");
 
 const getAllUsers = () => {
   return new Promise((resolve, reject) => {
@@ -70,6 +71,20 @@ const getUserById = (_id) => {
     }
   });
 };
+const getImagesCreatedByUser = (_id) => {
+  return new Promise((resolve, reject) => {
+    try {
+      ImagesSchema.find({ ownerId: _id }, (error, data) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(data);
+      }).count();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 const insertUser = (imageObj) => {
   return new Promise((resolve, reject) => {
@@ -80,4 +95,11 @@ const insertUser = (imageObj) => {
   });
 };
 
-module.exports =  { getAllUsers, getUserByUsername, insertUser, getUserById, updateUser };
+module.exports = {
+  getAllUsers,
+  getUserByUsername,
+  insertUser,
+  getUserById,
+  updateUser,
+  getImagesCreatedByUser,
+};

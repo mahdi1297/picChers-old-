@@ -1,4 +1,11 @@
-import React, { useEffect, useState, useCallback, lazy, Suspense } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  lazy,
+  Suspense,
+} from "react";
 import PropTypes from "prop-types";
 import { getCall } from "../../api/methods";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
@@ -28,6 +35,7 @@ const Image = lazy(() => {
 });
 
 const GridCard = (props) => {
+  const isMounted = useRef(true);
   const {
     id,
     image,
@@ -37,6 +45,7 @@ const GridCard = (props) => {
     theme,
     currentUser,
   } = props;
+  
 
   const [data, setData] = useState("");
   const [photographerModal, setPhotographerModal] = useState(false);
@@ -45,20 +54,29 @@ const GridCard = (props) => {
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
 
+  useEffect(() => {
+    if (isMounted.current) {
+      setLikesAmounts(likes);
+      fetchApi(ownerId);
+    }
+    return () => {
+      isMounted.current = false;
+    };
+  }, [data, likes, ownerId]);  
+
   const fetchApi = async (ownerId) => {
     const request = await getCall(`user/${ownerId}`);
     setData(request);
   };
-  useEffect(() => {
-    setLikesAmounts(likes);
-    fetchApi(ownerId);
-  }, [likes, ownerId]);
 
   const addToPocketHandler = useCallback(() => {
-    const finder = allDatas.filter((x) => x.id === id);
-    const findSameSelectedPocket = selectPockets.find((x) => x.id === id);
-    if (findSameSelectedPocket === undefined)
-      dispatch(addToPocketAction(finder[0]));
+    let isMounted = true;
+    if (isMounted) {
+      const finder = allDatas.filter((x) => x.id === id);
+      const findSameSelectedPocket = selectPockets.find((x) => x.id === id);
+      if (findSameSelectedPocket === undefined)
+        dispatch(addToPocketAction(finder[0]));
+    }
   }, [dispatch, id, selectPockets]);
 
   const onMouseEnterHandler = () => {
@@ -155,7 +173,7 @@ const GridCard = (props) => {
                 <PhotographerCardInfo
                   description={data && data.data.user.description}
                   role={data && data.data.user.role}
-                  imageCount={"1"}
+                  imageCount={data && data.data.user.totalposts}
                   likes={data && data.data.user.totallikes}
                 />
               </>

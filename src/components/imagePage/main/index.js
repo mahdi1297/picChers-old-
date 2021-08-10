@@ -18,14 +18,17 @@ const ImagePageMain = ({ category }) => {
   const [data, setData] = useState("");
 
   useEffect(() => {
-    const fetchedData = async (category) => {
-      const url = category.map((item) => item).join(",");
-      const response = await getCall(`images/categories/url?array=${url}`);
-      setData(response);
-    };
-    category.forEach((item) => {
-      fetchedData(item);
-    });
+    let isMounted = true;
+    if (isMounted) {
+      const fetchedData = async (category) => {
+        const url = category.map((item) => item).join(",");
+        const response = await getCall(`images/categories/url?array=${url}`);
+        setData(response);
+      };
+      category.forEach((item) => {
+        fetchedData(item);
+      });
+    }
   }, [category]);
 
   return (

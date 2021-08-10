@@ -28,6 +28,7 @@ const getRelatedImages = (category) => {
   if (!category) return false;
 
   return new Promise((resolve, reject) => {
+    // eslint-disable-next-line array-callback-return
     category.map((item) => {
       ImagesSchema.find({ tags: item }, (err, data) => {
         if (err) {
@@ -78,6 +79,33 @@ const updateImageByLike = (imageId, likes) => {
     );
   });
 };
+const getAllImageLikes = (id) => {
+  if (!id) return false;
+  return new Promise((resolve, reject) => {
+    ImagesSchema.aggregate(
+      [
+        {
+          $match: {
+            ownerId: id,
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            "ownerId": { $first: "$ownerId" },
+            likes: { $sum: "$likes" },
+          },
+        },
+      ],
+      function (error, data) {
+        if (error) {
+          reject(error);
+        }
+        resolve(data);
+      }
+    );
+  });
+};
 
 module.exports = {
   getImageById,
@@ -86,4 +114,5 @@ module.exports = {
   getRelatedImages,
   getUserByOwnerId,
   updateImageByLike,
+  getAllImageLikes,
 };

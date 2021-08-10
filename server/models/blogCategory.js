@@ -9,7 +9,7 @@ const getAllImages = () => {
   });
 };
 
-const insertBlogCategoryToDb = (blogCatObj) => {
+const insertBlogCategory = (blogCatObj) => {
   if (!blogCatObj) return false;
   return new Promise((resolve, reject) => {
     try {
@@ -25,4 +25,4 @@ const insertBlogCategoryToDb = (blogCatObj) => {
   });
 };
 
-module.exports = { insertBlogCategoryToDb, getAllImages };
+module.exports = { insertBlogCategory, getAllImages };

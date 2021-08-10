@@ -25,6 +25,8 @@ const UserProfile = () => {
       document.getElementById("body").style.background = "#404040";
   }
 
+  if(data) console.log(data)
+
   return (
     <>
       <Head title="user profile | pickchers" />
@@ -37,7 +39,7 @@ const UserProfile = () => {
             name={data && data.data.user.name}
             lastname={data && data.data.user.lastname}
             description={data && data.data.user.description}
-            imageCount={data && 125}
+            imageCount={data && data.data.user.totalposts}
             profilePicture={data && data.data.user.profileimage}
             role={data && data.data.user.role}
             total_likes={data && data.data.user.totallikes}

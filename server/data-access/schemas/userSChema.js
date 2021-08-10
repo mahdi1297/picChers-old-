@@ -49,6 +49,13 @@ const UserSchema = new Schema({
     default: 0,
     maxLength: 300,
   },
+  totalposts: {
+    type: Number,
+    required: true,
+    minLength: 1,
+    maxLength: 100,
+    default: 0,
+  },
   role: {
     type: String,
     required: true,

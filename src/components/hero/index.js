@@ -18,18 +18,24 @@ const Hero = () => {
   const [searchedVal, setSearchedVal] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setTimeout(async () => {
-          const response = await getCall(`images/categories/url?array=${searchedVal}`);
-          setData(response.data.relatedImages);
-        }, 1500);
-      } catch (err) {
+    let isActive = true;
+    if (isActive) {
+      const fetchData = async () => {
+        try {
+          setTimeout(async () => {
+            if (searchedVal.charAt(0) === "@") {
+              console.log(searchedVal.charAt(0));
+            }
+            const response = await getCall(
+              `images/categories/url?array=${searchedVal}`
+            );
+            setData(response.data.relatedImages);
+          }, 1500);
+        } catch (err) {}
+      };
+      if (searchedVal.length !== 0) {
+        fetchData();
       }
-    };
-
-    if (searchedVal.length !== 0) {
-      fetchData();
     }
   }, [searchedVal]);
 

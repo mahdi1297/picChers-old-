@@ -7,7 +7,7 @@ const {
   updateBlog,
 } =require("./../../models/blog");
 const {
-  insertBlogCategoryToDb,
+  insertBlogCategory,
   getAllImages,
 } = require("./../../models/blogCategory");
 const { body, param, query, validationResult } = require("express-validator");
@@ -122,8 +122,10 @@ route.post(
 
 route.post("/blog-category", async (req, res) => {
   const blogCategoryObj = req.body;
+
   if (!blogCategoryObj) return res.status(400).json({ message: "Bad Request" });
-  const createblogCategory = await insertBlogCategoryToDb(blogCategoryObj);
+  const createblogCategory = await insertBlogCategory(blogCategoryObj);
+  
   if (!createblogCategory)
     return res.status(400).json({ message: "Bad Request" });
   res.json({

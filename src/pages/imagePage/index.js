@@ -11,6 +11,7 @@ import { useParams } from "react-router";
 import { TitleH2 } from "./../../shared/elements/title";
 import { size } from "../../shared/theme/size";
 import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 const LeftSideImagePage = lazy(() => {
   return new Promise((resolve) => {
@@ -21,7 +22,7 @@ const LeftSideImagePage = lazy(() => {
 const ImagePage = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isFetching } = useGet(
+  const { data, isLoading, isFetching, error } = useGet(
     `http://localhost:5000/images/${id}`
   );
 
@@ -32,6 +33,10 @@ const ImagePage = () => {
       document.getElementById("body").style.background = "none";
     if (theme === "yes")
       document.getElementById("body").style.background = "#404040";
+  }
+
+  if (error) {
+    return <Redirect to="/" />;
   }
 
   return (

@@ -24,7 +24,6 @@ const Container = () => {
   );
 
   const theme = useSelector((store) => store.darkMode);
-  const login = useSelector((store) => store.login);
 
   if (theme) {
     if (theme === "no")
@@ -57,9 +56,9 @@ const Container = () => {
                 title={item.title}
                 alt={item.alt}
                 ownerId={item.ownerId}
+                totalLikes={item.totalLikes}
                 isShownInUserDashboard={false}
                 theme={theme}
-                currentUser={login && login._id}
               />
             ))}
         </Masonry>

@@ -10,8 +10,12 @@ const {
   getUserByUsername,
   getAllUsers,
   updateUser,
+  getImagesCreatedByUser,
 } = require("./../../models/users");
-const { getUserByOwnerId } = require("./../../models/imagesModel");
+const {
+  getUserByOwnerId,
+  getAllImageLikes,
+} = require("./../../models/imagesModel");
 
 const route = express.Router();
 
@@ -98,8 +102,47 @@ route.get(
         errors: errors.array(),
       });
     }
-    const user = await getUserById(`${_id}`);
-    if (!user) return res.status(404).json({ message: "user not found" });
+    let likeObj = [];
+    let userRole;
+
+    const getImages = await getImagesCreatedByUser(_id);
+    const userData = await getUserById(`${_id}`);
+    const allLikes = await getAllImageLikes(_id);
+    const totalLikes = allLikes.filter((x) => x.ownerId === _id);
+
+    totalLikes.forEach((item) => likeObj.push(item.likes));
+
+    const reducer = (accumulator, curr) => accumulator + curr;
+    const likesSum = likeObj.reduce(reducer);
+
+    if (!userData) return res.status(404).json({ message: "user not found" });
+
+    if (likesSum < 500) {
+      userRole = "begginer";
+    }
+    if (likesSum > 500 && likesSum < 5000) {
+      userRole = "intermediate";
+    }
+    if (likesSum > 5000 && likesSum < 20000) {
+      userRole = "professional";
+    }
+    if (likesSum > 2000) {
+      userRole = "expert";
+    }
+
+    const user = {
+      _id: userData._id,
+      profileimage: userData.profileimage,
+      description: userData.description,
+      totallikes: likesSum,
+      totalposts: getImages,
+      role: userRole,
+      permission: userData.permission,
+      name: userData.name,
+      lastname: userData.lastname,
+      email: userData.email,
+      username: userData.username,
+    };
     res.json({ message: "this user", user });
   }
 );
@@ -164,4 +207,4 @@ route.post(
   }
 );
 
-module.exports =  route;
+module.exports = route;

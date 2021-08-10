@@ -18,5 +18,5 @@ const BlogCategorySchema = new Schema({
 });
 
 module.exports = {
-  BlogCategorySchema: mongoose.model("blogs", BlogCategorySchema)
-}
+  BlogCategorySchema: mongoose.model("blogcategories", BlogCategorySchema),
+};
