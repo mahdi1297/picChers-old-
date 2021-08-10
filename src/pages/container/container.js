@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Masonry from "react-masonry-css";
-import useGet from "../../queries/useGet";
 import GridCard from "../../components/grid";
 import Hero from "../../components/hero";
 import LoaderSmallSpinner from "./../../shared/elements/loaders/small-spinner";
 import Head from "../../components/head";
 import { Body } from "./style";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getallImagesAction } from "../../actions/imagesActions";
 import "./grid.css";
 
 const breakpointColumnsObj = {
@@ -19,11 +19,14 @@ const breakpointColumnsObj = {
 };
 
 const Container = () => {
-  const { data, isLoading, error } = useGet(
-    `${process.env.REACT_APP_API_KEY}images`
-  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getallImagesAction("images"));
+  }, [dispatch]);
 
   const theme = useSelector((store) => store.darkMode);
+  const images = useSelector((store) => store.images);
 
   if (theme) {
     if (theme === "no")
@@ -35,34 +38,37 @@ const Container = () => {
   return (
     <>
       <Head title="Home | pickchers" />
-      {error && <p>Error</p>}
+      {images.status > 399 && images.status < 500 && <p>Error</p>}
       <Hero />
-      {isLoading && <LoaderSmallSpinner />}
-      <Body>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-          id="masonry"
-        >
-          {data &&
-            data.data.result.map((item) => (
-              <GridCard
-                key={item._id}
-                id={item._id}
-                image={item.path}
-                likes={item.likes}
-                tags={item.tags}
-                title={item.title}
-                alt={item.alt}
-                ownerId={item.ownerId}
-                totalLikes={item.totalLikes}
-                isShownInUserDashboard={false}
-                theme={theme}
-              />
-            ))}
-        </Masonry>
-      </Body>
+      {images.length === 0 ? (
+        <LoaderSmallSpinner />
+      ) : (
+        <Body>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+            id="masonry"
+          >
+            {images &&
+              images.result.map((item) => (
+                <GridCard
+                  key={item._id}
+                  id={item._id}
+                  image={item.path}
+                  likes={item.likes}
+                  tags={item.tags}
+                  title={item.title}
+                  alt={item.alt}
+                  ownerId={item.ownerId}
+                  totalLikes={item.totalLikes}
+                  isShownInUserDashboard={false}
+                  theme={theme}
+                />
+              ))}
+          </Masonry>
+        </Body>
+      )}
     </>
   );
 };

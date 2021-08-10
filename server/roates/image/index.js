@@ -11,8 +11,16 @@ const {
 const route = express.Router();
 
 route.get("/", async (req, res) => {
-  const result = await getAllImages();
-  res.json({ message: "this is images", result });
+  try{
+    const result = await getAllImages();
+    if(result.length ===0){
+      return res.status(400).json({ message: "no image found" });  
+    }
+    res.json({ status: 200, result });
+  }
+  catch(err){
+    res.status(400).json({ message: 'Something bad happened', err });
+  }
 });
 
 route.get(

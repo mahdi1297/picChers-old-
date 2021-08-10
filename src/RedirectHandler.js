@@ -12,7 +12,7 @@ import Navigation from "./components/navigation";
 import Header from "./components/header";
 import BlogSingle from "./components/blog/blog-single";
 import { addUserLoginAction } from "./actions/loginActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Admin = lazy(() => {
@@ -68,10 +68,11 @@ const RedirectHandler = () => {
   }, [dispatch, loginLocalStorage]);
 
   const userData = JSON.parse(loginLocalStorage);
+  const currentUser =  useSelector(store => store.login)
 
   return (
     <Router>
-      <Header currentUser={JSON.parse(loginLocalStorage)} />
+      <Header currentUser={currentUser} />
       {/* <Banner /> */}
       <Navigation />
       <Switch>

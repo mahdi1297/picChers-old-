@@ -5,19 +5,19 @@ import ApexCharts from "react-apexcharts";
 import { Footer } from "./style";
 import { Row, Col } from "./../../../../shared/elements/layout";
 import { colors } from "./../../../../shared/theme/color";
-import { FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiCamera, FiHeart } from "react-icons/fi";
 import { Button } from "../../../../shared/elements/button";
 import { LoaderSmallSpinner } from "../../../../shared/elements/loaders/style";
 
-const HomeChart = ({ apexData, isLoading, isFetching, totalLikes }) => {
+const HomeChart = ({ apexData, isLoading, isFetching, totalLikes, totalPosts }) => {
   const sery = [
     {
-      name: "series1",
-      data: apexData,
+      name: "posts",
+      data: [0, totalPosts],
     },
     {
-      name: "series2",
-      data: [12, 8],
+      name: "likes",
+      data: [0, totalLikes],
     },
   ];
   return (
@@ -37,8 +37,8 @@ const HomeChart = ({ apexData, isLoading, isFetching, totalLikes }) => {
             />
             <Col width="20%;">
               <Button size={"md"} color={colors.bg.PRIMARY} radius="3px">
-                Comment
-                <FiMessageCircle size={14} />
+                Posts
+                <FiCamera size={14} />
               </Button>
               <Button size={"md"} color={colors.bg.SECENDORY} radius="3px">
                 Likes
@@ -49,7 +49,7 @@ const HomeChart = ({ apexData, isLoading, isFetching, totalLikes }) => {
           <Row>
             <Footer>
               <p>Your Likes: {totalLikes}</p>
-              <p>Your Comments: 14564765</p>
+              <p>Your Posts: {totalPosts}</p>
             </Footer>
           </Row>
         </Col>
@@ -62,7 +62,6 @@ HomeChart.propTypes = {
   apexData: PropTypes.array,
   isLoading: PropTypes.bool,
   isFetching: PropTypes.bool,
-  totalLikes: PropTypes.number,
 };
 
 export default HomeChart;

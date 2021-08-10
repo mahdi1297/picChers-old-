@@ -68,6 +68,8 @@ route.post(
   async (req, res, next) => {
     // eslint-disable-next-line no-unused-vars
     const { username, password } = req.body;
+
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -86,7 +88,7 @@ route.post(
     if (!user) {
       return res.json({ message: "user not found" });
     }
-    res.json({ message: "Successfully logedIn", user });
+    res.json({ status: 200, message: "Successfully logedIn", user });
   }
 );
 

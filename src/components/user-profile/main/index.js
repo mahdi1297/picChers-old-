@@ -25,10 +25,10 @@ const UserProfleMain = ({
   const login = useSelector((store) => store.login);
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
     if (isMounted) {
       window.scrollTo(0, 0);
-    };
+    }
   });
 
   return (

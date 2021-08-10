@@ -17,7 +17,7 @@ export const Body = styled.div`
     padding: 0;
     border-bottom: 1px solid ${colors.default.BLACK};
     & li {
-      width: 25%;
+      width: 33%;
       height: 40px;
       display: flex;
       align-items: center;
