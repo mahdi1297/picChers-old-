@@ -12,8 +12,7 @@ import Navigation from "./components/navigation";
 import Header from "./components/header";
 import BlogSingle from "./components/blog/blog-single";
 import { addUserLoginAction } from "./actions/loginActions";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 const Admin = lazy(() => {
   return new Promise((resolve) => {
@@ -53,9 +52,9 @@ const Blog = lazy(() => {
 
 const Pockets = lazy(() => {
   return new Promise((resolve, rejcet) => {
-    resolve(import("./components/pocket-view"))
-  })
-})
+    resolve(import("./components/pocket-view"));
+  });
+});
 
 const RedirectHandler = () => {
   const loginLocalStorage = localStorage.getItem("login");
@@ -67,7 +66,7 @@ const RedirectHandler = () => {
     }
   }, [dispatch, loginLocalStorage]);
 
-  const userData = JSON.parse(loginLocalStorage);
+  const userData = useSelector((store) => store.login);
 
   return (
     <Router>
@@ -115,13 +114,11 @@ const RedirectHandler = () => {
         <Route
           path="/user-dashboard/:layout"
           render={() =>
-            loginLocalStorage ? (
+            userData ? (
               <>
-                <UserDashboardSidebar
-                  currentUser={JSON.parse(loginLocalStorage)}
-                />
+                <UserDashboardSidebar currentUser={userData} />
                 <Suspense fallback={<SmallSpinner />}>
-                  <UserDashboard currentUser={JSON.parse(loginLocalStorage)} />
+                  <UserDashboard currentUser={userData} />
                 </Suspense>
               </>
             ) : (
