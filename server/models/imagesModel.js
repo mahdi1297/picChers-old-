@@ -1,4 +1,4 @@
-const {ImagesSchema} = require("./../data-access/schemas/imagesSchema");
+const { ImagesSchema } = require("./../data-access/schemas/imagesSchema");
 
 const getImageById = (_id) => {
   if (!_id) return false;
@@ -28,13 +28,13 @@ const getRelatedImages = (category) => {
   if (!category) return false;
 
   return new Promise((resolve, reject) => {
-    ImagesSchema.find({ tags: [category] }, (err, data) => {
-      if (err) {
-        reject(err);
-        console.log(err);
-      }
-      resolve(data);
-      console.log(data);
+    category.map((item) => {
+      ImagesSchema.find({ tags: item }, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(data);
+      });
     });
   });
 };

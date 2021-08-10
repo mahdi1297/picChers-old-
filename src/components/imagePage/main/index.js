@@ -17,10 +17,10 @@ const breakpointColumnsObj = {
 const ImagePageMain = ({ category }) => {
   const [data, setData] = useState("");
 
-  //need to be solved
   useEffect(() => {
     const fetchedData = async (category) => {
-      const response = await getCall(`images/categories/$[tag1, tag2, tag3]`);
+      const url = category.map((item) => item).join(",");
+      const response = await getCall(`images/categories/url?array=${url}`);
       setData(response);
     };
     category.forEach((item) => {

@@ -18,6 +18,7 @@ const insertLikeImage = (clientData) => {
 
 const getLikeImagesByImageId = (imageId, userId) => {
   if (!imageId) return false;
+
   return new Promise((resolve, reject) => {
     ImageLikeSchema.find(
       { imageId: imageId, userId: userId },

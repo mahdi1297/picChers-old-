@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Head from "../../components/head";
 import Login from "./login";
 import Register from "./register";
 import { Col, MarginTop, Row } from "../../shared/elements/layout";
@@ -7,14 +8,11 @@ import { size } from "../../shared/theme/size";
 import { colors } from "../../shared/theme/color";
 import { P } from "./style";
 import "./style.css";
-import Head from "../../components/head";
 
 const Auth = () => {
   const [page, setPage] = useState("login");
-
   const setLoginHandler = () => setPage("login");
   const setRegisterHandler = () => setPage("register");
-
   return (
     <>
       <Head title="auth | Pictures" />

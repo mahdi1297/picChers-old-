@@ -39,11 +39,11 @@ const BlogItem = ({ title, slug, thumbnail, category, theme }) => {
 };
 
 BlogItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  slug: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  theme: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  slug: PropTypes.string,
+  thumbnail: PropTypes.string,
+  category: PropTypes.string,
+  theme: PropTypes.string,
 };
 
 export default BlogItem;

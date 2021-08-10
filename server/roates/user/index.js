@@ -50,7 +50,6 @@ route.post(
         password: hashPass,
       };
       const result = await insertUser(newUserObj);
-      console.log(result);
       res.json({ messag: "new User Created", result });
     } catch (error) {
       res.status(error.status).json({ status: error, messag: error.message });
@@ -157,8 +156,6 @@ route.post(
         permission: userObj.permission,
       };
       const response = await updateUser(id, data);
-
-      console.log(response);
 
       res.json({ message: "user updated successfully", response });
     } catch (error) {

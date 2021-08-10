@@ -16,15 +16,13 @@ route.get("/", async (req, res) => {
 });
 
 route.get(
-  "/categories/:category",
-  param("category").exists().isLength({ min: 2, max: 450 }),
+  "/categories/:tag",
+  param("tag").exists().isLength({ min: 2, max: 450 }),
   async (req, res) => {
-    const category = req.params.category;
 
-    console.log(category)
+    const tags = req.query.array.split(',');
 
-    const relatedImages = await getRelatedImages(category);
-    console.log(relatedImages);
+    const relatedImages = await getRelatedImages(tags);
     res.json({ message: "this is images category", relatedImages });
   }
 );

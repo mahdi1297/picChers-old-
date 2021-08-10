@@ -25,7 +25,10 @@ const UserProfleMain = ({
   const login = useSelector((store) => store.login);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    let isMounted = true
+    if (isMounted) {
+      window.scrollTo(0, 0);
+    };
   });
 
   return (
@@ -70,7 +73,7 @@ const UserProfleMain = ({
 
 UserProfleMain.propTypes = {
   isData: PropTypes.bool.isRequired,
-  ownerId: PropTypes.bool.isRequired,
+  ownerId: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,

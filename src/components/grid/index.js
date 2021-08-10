@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback, lazy, Suspense } from "react";
 import PropTypes from "prop-types";
+import { getCall } from "../../api/methods";
+import SmallSpinner from "../../shared/elements/loaders/small-spinner";
 import {
   Item,
   TopHovered,
@@ -10,8 +12,6 @@ import {
   LikeMeta,
 } from "./style";
 import PhotographerCardInfo from "./photographerCardInfo";
-import SmallSpinner from "../../shared/elements/loaders/small-spinner";
-import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { addToPocketAction } from "./../../actions/pocketActions";
 import { useMutation } from "react-query";
@@ -19,7 +19,7 @@ import { allDatas } from "./../../DUMM_DATA";
 import { postCall } from "../../api/methods";
 import { colors } from "../../shared/theme/color";
 import { Link } from "react-router-dom";
-import { getCall } from "../../api/methods";
+import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 
 const Image = lazy(() => {
   return new Promise((resolve) => {
@@ -41,8 +41,6 @@ const GridCard = (props) => {
   const [data, setData] = useState("");
   const [photographerModal, setPhotographerModal] = useState(false);
   const [likesAmount, setLikesAmounts] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const [response, setResponse] = useState("");
   const selectPockets = useSelector((store) => store.pocket);
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
@@ -179,4 +177,4 @@ GridCard.propTypes = {
   currentUser: PropTypes.string,
 };
 
-export default React.memo(GridCard);
+export default GridCard;

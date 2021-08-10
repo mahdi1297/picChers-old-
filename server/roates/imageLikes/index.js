@@ -10,7 +10,7 @@ const { body, param, validationResult } = require( "express-validator");
 const route = express.Router();
 route.get(
   "/:imageId",
-  param("imageId").exists().isLength({ min: 2, max: 100 }),
+  param("imageId").exists(),
   async (req, res) => {
     const imageId = req.params.imageId;
     const errors = validationResult(req);
@@ -45,7 +45,7 @@ route.get(
 route.post(
   "/",
   body("imageId").exists().isLength({ min: 2, max: 100 }),
-  body("userId").exists().isLength({ min: 2, max: 100 }),
+  // body("userId").exists(),
   body("likesCount").exists(),
   async (req, res) => {
     const imageId = req.body.imageId;
@@ -65,8 +65,9 @@ route.post(
       return res.json({ message: "you liked this image earlire" });
     }
     await insertLikeImage(data);
+    
     const request = await updateImageByLike(imageId, likeCount);
-    res.json({ message: "message", request });
+    return res.json({ message: "message", request });
   }
 );
 

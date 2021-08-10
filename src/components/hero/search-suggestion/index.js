@@ -5,7 +5,6 @@ import { Col, Row } from "../../../shared/elements/layout";
 import { Link } from "react-router-dom";
 
 const SearchSuggestion = ({ data }) => {
-  console.log(data);
   return (
     <SearchSuggestionBody>
       {!data && data.length === 0 ? (

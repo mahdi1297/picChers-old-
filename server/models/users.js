@@ -32,10 +32,8 @@ const updateUser = (id, objectToUpdate) => {
       (error, data) => {
         if (error) {
           reject(error);
-          console.log(error);
         }
         resolve(data);
-        console.log(data);
       }
     );
   });

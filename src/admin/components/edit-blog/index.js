@@ -37,6 +37,8 @@ const EditBlog = ({ width }) => {
     error: categoryError,
   } = useGet("http://localhost:5000/blog/blog-categories");
 
+  console.log(categoryData && categoryData.data.categories)
+
   const editBlogRequset = useMutation((blog) =>
     postCall(blog, "blog/update-blog")
   );
@@ -54,10 +56,10 @@ const EditBlog = ({ width }) => {
       setDescriptionVal(data.data.getSlug[0].description);
       setMainimageVal(data.data.getSlug[0].mainimage);
       setThumbnailVal(data.data.getSlug[0].thumbnail);
-      setCategoriesVal(data.data.getSlug[0].categories);
+      setCategoriesVal(categoryData && categoryData.data.categories);
       setContent(data.data.getSlug[0].content);
     }
-  }, [data]);
+  }, [categoryData, data]);
 
   const onChange = (evt) => {
     const newContent = evt.editor.getData();
@@ -130,7 +132,7 @@ const EditBlog = ({ width }) => {
               type="text"
               register={{ ...register("description", { required: true }) }}
               error={errors.description}
-              defaultvalue={mainimageVal}
+              defaultvalue={descriptionVal}
             />
             <InputGroup
               label="Main image url"
@@ -138,7 +140,7 @@ const EditBlog = ({ width }) => {
               type="text"
               register={{ ...register("mainimage", { required: true }) }}
               error={errors.mainimage}
-              defaultvalue={thumbnailVal}
+              defaultvalue={mainimageVal}
             />
             <InputGroup
               label="Thumbnail image url"
@@ -146,14 +148,14 @@ const EditBlog = ({ width }) => {
               type="text"
               register={{ ...register("thumbnail", { required: true }) }}
               error={errors.thumbnail}
-              defaultvalue={categoriesVal}
+              defaultvalue={thumbnailVal}
             />
             <SelectGroup
               label={"Category"}
               data={categoryData && categoryData.data.categories}
               register={{ ...register("categories", { required: true }) }}
               error={errors.categories}
-              defaultvalue={descriptionVal}
+              defaultvalue={categoriesVal}
             />
             <MarginTop margin="50">
               <CKEditors

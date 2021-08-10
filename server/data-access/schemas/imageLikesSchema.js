@@ -16,5 +16,5 @@ const ImageLikeSchema = new Schema({
 
 
 module.exports = {
-  ImagesSchema: mongoose.model("imageslikes", ImageLikeSchema)
+  ImageLikeSchema: mongoose.model("imageslikes", ImageLikeSchema)
 }
