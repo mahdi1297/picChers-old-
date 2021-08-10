@@ -45,7 +45,7 @@ route.get(
 route.post(
   "/",
   body("imageId").exists().isLength({ min: 2, max: 100 }),
-  // body("userId").exists(),
+  body("userId").exists(),
   body("likesCount").exists(),
   async (req, res) => {
     const imageId = req.body.imageId;
