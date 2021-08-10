@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { MarginTop } from "../../shared/elements/layout";
 import { colors } from "../../shared/theme/color";
 import { Button } from "../../shared/elements/button";
-import { useDispatch } from "react-redux";
-import { addUserLoginAction } from "./../../actions/loginActions";
+import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "react-query";
 import { postCall } from "../../api/methods";
 import Toasts from "../../shared/elements/toasts";
+import { getLoginUser } from "./../../actions/loginActions";
 
 const Login = () => {
   const {
@@ -17,21 +17,23 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("login");
-    const storage = localStorage.getItem("login");
-    dispatch(addUserLoginAction(storage));
-  }, [dispatch]);
-
   const mutation = useMutation((login) => postCall(login, "user/login"));
 
-  const loginSubmitHandler = (data) => {
-    mutation.mutate({ username: data.username, password: data.password });
+  const currentUser = useSelector((store) => store.login);
+
+  useEffect(() => {}, [dispatch, mutation]);
+
+  const loginSubmitHandler = async (data) => {
+    dispatch(
+      getLoginUser({
+        username: data.username,
+        password: data.password,
+      })
+    );
   };
 
-  if (mutation.isSuccess) {
-    localStorage.setItem("login", JSON.stringify(mutation.data.data.user));
+  if (currentUser.status === 200) {
+    localStorage.setItem("login", JSON.stringify(currentUser.user));
     setTimeout(() => {
       return (window.location.href = "/");
     }, 1000);
@@ -39,10 +41,12 @@ const Login = () => {
 
   return (
     <>
-      {mutation.isError && (
+      {(currentUser.status === 400) ? (
         <Toasts type="error" message="login faild" />
+      ) : (
+        <> </>
       )}
-      {mutation.isSuccess && (
+      {currentUser.status === 200 && (
         <Toasts type="success" message="successfull login" />
       )}
 
@@ -78,3 +82,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
