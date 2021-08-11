@@ -1,17 +1,17 @@
-import React, { Suspense, lazy } from "react";
+import React, { useEffect, useRef, Suspense, lazy } from "react";
 import RightSideImagePage from "../../components/imagePage/right-side";
 import ImagePageMain from "../../components/imagePage/main";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
-import Message from "../../components/message";
-import useGet from "../../queries/useGet";
 import Head from "../../components/head";
 import { MarginTop, Column, Row } from "../../shared/elements/layout";
+import Message from "../../components/message";
 import { LeftSide, RightSide, Container } from "./style";
 import { useParams } from "react-router";
 import { TitleH2 } from "./../../shared/elements/title";
 import { size } from "../../shared/theme/size";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { getImageById, clearImageAction } from "../../actions/imagesActions";
 
 const LeftSideImagePage = lazy(() => {
   return new Promise((resolve) => {
@@ -20,13 +20,27 @@ const LeftSideImagePage = lazy(() => {
 });
 
 const ImagePage = () => {
+  let isMounted = useRef(false);
+  let mountComponent = false;
+
   const { id } = useParams();
-
-  const { data, isLoading, isFetching, error } = useGet(
-    `http://localhost:5000/images/${id}`
-  );
-
+  const data = useSelector((store) => store.imageById);
   const theme = useSelector((store) => store.darkMode);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    isMounted.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    mountComponent = true;
+    if (isMounted.current && mountComponent) {
+      dispatch(getImageById(id));
+    }
+    return () => {
+      dispatch(clearImageAction());
+      isMounted.current = false;
+      mountComponent = false;
+    };
+  }, [dispatch, id]);
 
   if (theme) {
     if (theme === "no")
@@ -35,7 +49,7 @@ const ImagePage = () => {
       document.getElementById("body").style.background = "#404040";
   }
 
-  if (error) {
+  if (data !== null && data !== undefined && data.status === 400) {
     return <Redirect to="/" />;
   }
 
@@ -48,37 +62,45 @@ const ImagePage = () => {
             <Column size="70">
               <Suspense fallback={<></>}>
                 <LeftSide>
-                  <LeftSideImagePage
-                    data={data && true}
-                    image={data && data.data.result.path}
-                    isLoading={isLoading && isLoading}
-                    isFetching={isFetching && isFetching}
-                  />
+                  {data !== null && data.length !== 0 ? (
+                    <LeftSideImagePage
+                      data={true}
+                      image={data.result.path}
+                      isLoading={false}
+                      isFetching={false}
+                    />
+                  ) : (
+                    <SmallSpinner />
+                  )}
                 </LeftSide>
               </Suspense>
             </Column>
             <Column size="30">
               <RightSide>
-                <RightSideImagePage
-                  data={data && true}
-                  id={data && data.data.result._id}
-                  owner={data && data.data.result.owner}
-                  userId={data && data.data.result.ownerId}
-                  likes={data && data.data.result.likes}
-                  title={data && data.data.result.title}
-                  tags={data && data.data.result.tags}
-                  isLoading={isLoading && isLoading}
-                  isFetching={isFetching && isFetching}
-                  theme={theme}
-                />
+                {data !== null && data.length !== 0 ? (
+                  <RightSideImagePage
+                    data={data !== null && data.length !== 0 && true}
+                    id={data.result._id}
+                    owner={data.result.owner}
+                    userId={data.result.ownerId}
+                    likes={data.result.likes}
+                    title={data.result.title}
+                    tags={data.result.tags}
+                    isLoading={false}
+                    isFetching={false}
+                    theme={theme}
+                  />
+                ) : (
+                  <SmallSpinner />
+                )}
               </RightSide>
             </Column>
           </Row>
           <TitleH2 theme={theme} fontSize={size.default.lg}>
             Related Photos
           </TitleH2>
-          {data && !isLoading && !isFetching ? (
-            <ImagePageMain category={[data.data.result.tags]} />
+          {data !== null && data !== undefined && data.length !== 0 ? (
+            <ImagePageMain category={[data.result.tags]} />
           ) : (
             <SmallSpinner />
           )}

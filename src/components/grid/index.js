@@ -7,8 +7,8 @@ import React, {
   Suspense,
 } from "react";
 import PropTypes from "prop-types";
-import { getCall } from "../../api/methods";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
+import SkeletonLoader from "../../shared/elements/loaders/skeleton";
 import {
   Item,
   TopHovered,
@@ -26,6 +26,7 @@ import { allDatas } from "./../../DUMM_DATA";
 import { postCall } from "../../api/methods";
 import { colors } from "../../shared/theme/color";
 import { Link } from "react-router-dom";
+import { getUsersByIdAction } from "./../../actions/usersAction";
 import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 
 const Image = lazy(() => {
@@ -35,7 +36,7 @@ const Image = lazy(() => {
 });
 
 const GridCard = (props) => {
-  const isMounted = useRef(true);
+  const isMounted = useRef(false);
   const {
     id,
     image,
@@ -45,29 +46,27 @@ const GridCard = (props) => {
     theme,
     currentUser,
   } = props;
-  
 
-  const [data, setData] = useState("");
   const [photographerModal, setPhotographerModal] = useState(false);
   const [likesAmount, setLikesAmounts] = useState(0);
   const selectPockets = useSelector((store) => store.pocket);
+  const data = useSelector((store) => store.usersById);
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
 
   useEffect(() => {
+    isMounted.current = true;
     if (isMounted.current) {
+      const fetchApi = async (ownerId) => {
+        dispatch(getUsersByIdAction(ownerId));
+      };
       setLikesAmounts(likes);
       fetchApi(ownerId);
     }
     return () => {
       isMounted.current = false;
     };
-  }, [data, likes, ownerId]);  
-
-  const fetchApi = async (ownerId) => {
-    const request = await getCall(`user/${ownerId}`);
-    setData(request);
-  };
+  }, [dispatch, likes, ownerId]);
 
   const addToPocketHandler = useCallback(() => {
     let isMounted = true;
@@ -101,84 +100,91 @@ const GridCard = (props) => {
 
   return (
     <>
-      <Suspense fallback={<SmallSpinner />}>
-        <Item theme={theme}>
-          <Link to={`/photos/${id}`} onClick={pageOffsetHandler}>
-            <Image width="100%" alt={"x"} src={image} onclick={onclick} />
-          </Link>
-          <div>
-            <TopHovered>
-              <Meta color={colors.bg.WHITE} onClick={() => handleLikeBtn(id)}>
-                <LikeMeta>
-                  <FiHeart size={15} /> <sup>{likesAmount}</sup>
-                </LikeMeta>
-              </Meta>
-              {!isShownInUserDashboard && (
-                <Meta onClick={(id) => currentUser && addToPocketHandler(id)}>
-                  <FiPocket size={15} /> <sup>Add to pocket</sup>
+      <Suspense fallback={<></>}>
+        {data.length === 0 ? (
+          <SkeletonLoader />
+        ) : (
+          <Item theme={theme}>
+            <Link to={`/photos/${id}`} onClick={pageOffsetHandler}>
+              <Image width="100%" alt={"x"} src={image} onclick={onclick} />
+            </Link>
+            <div>
+              <TopHovered>
+                <Meta color={colors.bg.WHITE} onClick={() => handleLikeBtn(id)}>
+                  <LikeMeta>
+                    <FiHeart size={15} /> <sup>{likesAmount}</sup>
+                  </LikeMeta>
                 </Meta>
-              )}
-            </TopHovered>
-            <ButtomHovered>
-              {!isShownInUserDashboard ? (
-                <>
-                  <Meta onMouseEnter={onMouseEnterHandler}>
-                    <Image
-                      width="40"
-                      height="40"
-                      src={data && data.data.user.profileimage}
-                      alt={data && data.data.user.username}
-                      onMouseEnter={onMouseEnterHandler}
-                      onMouseLeave={onMouseLeaveHandler}
-                    />
-                    <span>{data && data.data.user.username}</span>
+                {!isShownInUserDashboard && (
+                  <Meta onClick={(id) => currentUser && addToPocketHandler(id)}>
+                    <FiPocket size={15} /> <sup>Add to pocket</sup>
                   </Meta>
-                  <Button>
-                    <FiDownload size={15} />
+                )}
+              </TopHovered>
+              <ButtomHovered>
+                {!isShownInUserDashboard ? (
+                  <>
+                    <Meta onMouseEnter={onMouseEnterHandler}>
+                      <Image
+                        width="40"
+                        height="40"
+                        src={data.length !== 0 && data.user.profileimage}
+                        alt={data.length !== 0 && data.user.username}
+                        onMouseEnter={onMouseEnterHandler}
+                        onMouseLeave={onMouseLeaveHandler}
+                      />
+                      <span>{data.length !== 0 && data.user.username}</span>
+                    </Meta>
+                    <Button>
+                      <FiDownload size={15} />
+                    </Button>
+                  </>
+                ) : (
+                  <Button style={{ float: "left", marginLeft: "10px" }}>
+                    <FiEdit size={15} />
                   </Button>
-                </>
+                )}
+              </ButtomHovered>
+            </div>
+          </Item>
+        )}
+        {data.length === 0 ? (
+          <SmallSpinner />
+        ) : (
+          photographerModal && (
+            <PhotoModal
+              onMouseEnter={onMouseEnterHandler}
+              onMouseLeave={onMouseLeaveHandler}
+            >
+              {!data ? (
+                <SmallSpinner />
               ) : (
-                <Button style={{ float: "left", marginLeft: "10px" }}>
-                  <FiEdit size={15} />
-                </Button>
+                <>
+                  <Link to={`/user-profile/${ownerId}`}>
+                    <Meta>
+                      <img
+                        width="40"
+                        height="40"
+                        src={data.length !== 0 && data.user.profileimage}
+                        alt={data.length !== 0 && data.user.profileimage}
+                      />
+                      <p>
+                        {data.length !== 0 && data.user.name}{" "}
+                        {data.length !== 0 && data.user.lastname}
+                      </p>
+                      <br />
+                    </Meta>
+                  </Link>
+                  <PhotographerCardInfo
+                    description={data.length !== 0 && data.user.description}
+                    role={data.length !== 0 && data.user.role}
+                    imageCount={data.length !== 0 && data.user.totalposts}
+                    likes={data.length !== 0 && data.user.totallikes}
+                  />
+                </>
               )}
-            </ButtomHovered>
-          </div>
-        </Item>
-
-        {photographerModal && (
-          <PhotoModal
-            onMouseEnter={onMouseEnterHandler}
-            onMouseLeave={onMouseLeaveHandler}
-          >
-            {!data ? (
-              <SmallSpinner />
-            ) : (
-              <>
-                <Link to={`/user-profile/${ownerId}`}>
-                  <Meta>
-                    <img
-                      width="40"
-                      height="40"
-                      src={data && data.data.user.profileimage}
-                      alt={data && data.data.user.profileimage}
-                    />
-                    <p>
-                      {data && data.data.user.name}{" "}
-                      {data && data.data.user.lastname}
-                    </p>
-                    <br />
-                  </Meta>
-                </Link>
-                <PhotographerCardInfo
-                  description={data && data.data.user.description}
-                  role={data && data.data.user.role}
-                  imageCount={data && data.data.user.totalposts}
-                  likes={data && data.data.user.totallikes}
-                />
-              </>
-            )}
-          </PhotoModal>
+            </PhotoModal>
+          )
         )}
       </Suspense>
     </>

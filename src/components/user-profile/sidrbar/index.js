@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from 'prop-types'
 import Image from "../../../shared/elements/image";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 import {
@@ -96,17 +95,5 @@ const UserProfileSidebar = ({
   );
 };
 
-UserProfileSidebar.propTypes = {
-  data: PropTypes.bool,
-  user: PropTypes.string,
-  profilePicture: PropTypes.string,
-  role: PropTypes.string,
-  total_likes: PropTypes.number,
-  imageCount: PropTypes.number,
-  description: PropTypes.string,
-  userId: PropTypes.string,
-  isFetching: PropTypes.bool,
-  isLoading: PropTypes.bool,
-};
 
 export default UserProfileSidebar;

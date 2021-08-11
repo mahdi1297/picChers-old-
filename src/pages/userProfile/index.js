@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Body } from "./style";
 import { Row } from "./../../shared/elements/layout";
 import UserProfileSidebar from "../../components/user-profile/sidrbar";
 import UserProfleMain from "../../components/user-profile/main";
-import useGet from "../../queries/useGet";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Head from "./../../components/head";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
+import { getUserByIdAction } from "../../actions/usersAction";
 
 const UserProfile = () => {
   const { id } = useParams();
 
-  const { error, data, isLoading, isFetching } = useGet(
-    `http://localhost:5000/user/${id}`
-  );
-
   const theme = useSelector((store) => store.darkMode);
+  const data = useSelector((store) => store.userById);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserByIdAction(id));
+  }, [dispatch, id]);
 
   if (theme) {
     if (theme === "no")
@@ -25,47 +27,43 @@ const UserProfile = () => {
       document.getElementById("body").style.background = "#404040";
   }
 
-  if(data) console.log(data)
-
   return (
     <>
       <Head title="user profile | pickchers" />
       <Body>
         <Row justify="space-between">
           <UserProfileSidebar
-            data={data && true}
-            id={data && data.data.user._id}
-            user={data && data.data.user.username}
-            name={data && data.data.user.name}
-            lastname={data && data.data.user.lastname}
-            description={data && data.data.user.description}
-            imageCount={data && data.data.user.totalposts}
-            profilePicture={data && data.data.user.profileimage}
-            role={data && data.data.user.role}
-            total_likes={data && data.data.user.totallikes}
-            userId={data && data.data.user._id}
-            isLoading={isLoading && isLoading}
-            isFetching={isFetching && isFetching}
+            data={data.length !== 0 && true}
+            id={data.length !== 0 && data.user._id}
+            user={data.length !== 0 && data.user.username}
+            name={data.length !== 0 && data.user.name}
+            lastname={data.length !== 0 && data.user.lastname}
+            description={data.length !== 0 && data.user.description}
+            imageCount={data.length !== 0 && data.user.totalposts}
+            profilePicture={data.length !== 0 && data.user.profileimage}
+            role={data.length !== 0 && data.user.role}
+            total_likes={data.length !== 0 && data.user.totallikes}
+            userId={data.length !== 0 && data._id}
+            isLoading={data.length === 0 ? true : false}
+            isFetching={data.length === 0 ? true : false}
             theme={theme}
           />
-          {isLoading && isFetching ? (
+          {data.length === 0 ? (
             <SmallSpinner />
           ) : (
-            data && (
-              <UserProfleMain
-                isData={true}
-                ownerId={data.data.user._id}
-                username={data.data.user.username}
-                isFetching={isFetching && isFetching}
-                isLoading={isLoading && isLoading}
-                theme={theme}
-              />
-            )
+            <UserProfleMain
+              isData={true}
+              id={data.length !== 0 && data.user._id}
+              username={data.length !== 0 && data.user.username}
+              isFetching={data.length === 0 ? true : false}
+              isLoading={data.length === 0 ? true : false}
+              theme={theme}
+            />
           )}
           <div>1</div>
         </Row>
       </Body>
-      {error && (
+      {(data.length === 0) | (data === null) | (data === undefined) && (
         <p
           style={{
             position: "relative",

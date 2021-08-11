@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Masonry from "react-masonry-css";
 import GridCard from "../../components/grid";
 import Hero from "../../components/hero";
@@ -19,12 +19,17 @@ const breakpointColumnsObj = {
 };
 
 const Container = () => {
+  const isMounted = useRef(false);
+  
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(getallImagesAction("images"));
+    isMounted.current = true;
+    if(isMounted.current) dispatch(getallImagesAction());
+    return () => {
+      isMounted.current = false;
+    };
   }, [dispatch]);
-
+  
   const theme = useSelector((store) => store.darkMode);
   const images = useSelector((store) => store.images);
 
@@ -38,7 +43,7 @@ const Container = () => {
   return (
     <>
       <Head title="Home | pickchers" />
-      {images.status > 399 && images.status < 500 && <p>Error</p>}
+      { images.status > 399 && images.status < 500 && <p>Error</p>}
       <Hero />
       {images.length === 0 ? (
         <LoaderSmallSpinner />

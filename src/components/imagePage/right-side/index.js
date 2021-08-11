@@ -2,6 +2,8 @@ import React from "react";
 import { MarginTop, Row } from "./../../../shared/elements/layout";
 import { Link } from "react-router-dom";
 import { Body, SideHeader, ImageTitle, Section, Socials } from "./style";
+import Tag from "../../tag";
+import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 import {
   FiDribbble,
   FiFacebook,
@@ -10,9 +12,6 @@ import {
   FiLinkedin,
   FiShare2,
 } from "react-icons/fi";
-import PropTypes from "prop-types";
-import Tag from "../../tag";
-import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 
 
 const RightSideImagePage = ({
@@ -21,8 +20,8 @@ const RightSideImagePage = ({
   likes,
   title,
   tags,
-  isFetching,
-  isLoading,
+  isFetching = true,
+  isLoading = true,
   theme,
 }) => {
   return (
@@ -94,18 +93,5 @@ const RightSideImagePage = ({
     </>
   );
 };
-
-
-RightSideImagePage.propTypes = {
-  data: PropTypes.bool,
-  owner: PropTypes.object,
-  likes: PropTypes.number,
-  title: PropTypes.string,
-  tags: PropTypes.array,
-  isFetching: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  theme: PropTypes.string,
-};
-
 
 export default RightSideImagePage;

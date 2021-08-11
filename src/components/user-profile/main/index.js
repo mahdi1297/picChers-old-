@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import SmallSpinner from "../../../shared/elements/loaders/small-spinner";
 import MasonryContainer from "./Masonry";
-import useGet from "../../../queries/useGet";
 import Image from "./../../../shared/elements/image";
 import { Body, Suggestion, SuggestionBody, MasornryBody } from "./style";
 import { TitleH2 } from "./../../../shared/elements/title";
@@ -11,6 +9,7 @@ import { Col } from "./../../../shared/elements/layout";
 import { suggestion } from "../../../DUMM_DATA";
 import { useSelector } from "react-redux";
 import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
+import axios from "axios";
 
 const UserProfleMain = ({
   isData,
@@ -20,16 +19,28 @@ const UserProfleMain = ({
   isLoading,
   theme,
 }) => {
-  const { data } = useGet(`http://localhost:5000/user/${username}/${ownerId}`);
+  const [data, setData] = useState("");
 
   const login = useSelector((store) => store.login);
 
+  let isMounted = false;
   useEffect(() => {
-    let isMounted = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    isMounted = true;
     if (isMounted) {
+      const fetchData = async (username, ownerId) => {
+        const request = await axios.get(
+          `http://localhost:5000/user/${username}/${ownerId}`
+        );
+        setData(request);
+      };
+      fetchData(username, ownerId);
       window.scrollTo(0, 0);
     }
-  });
+    return () => {
+      isMounted = false;
+    };
+  }, [username, ownerId]);
 
   return (
     <Body>
@@ -69,15 +80,6 @@ const UserProfleMain = ({
       )}
     </Body>
   );
-};
-
-UserProfleMain.propTypes = {
-  isData: PropTypes.bool.isRequired,
-  ownerId: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  theme: PropTypes.string.isRequired,
 };
 
 export default UserProfleMain;

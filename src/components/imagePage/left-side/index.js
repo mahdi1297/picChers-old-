@@ -1,8 +1,7 @@
 import React from "react";
 import { Row } from "../../../shared/elements/layout";
-import PropTypes from "prop-types";
 
-const LeftSideImagePage = ({ image, isLoading, isFetching, data }) => {
+const LeftSideImagePage = ({ image, isLoading = true, isFetching = true, data }) => {
   return (
     <>
       <Row justify="center" align={true}>
@@ -21,11 +20,5 @@ const LeftSideImagePage = ({ image, isLoading, isFetching, data }) => {
 };
 
 
-LeftSideImagePage.propTypes = {
-  data: PropTypes.bool,
-  image: PropTypes.string,
-  isFetching: PropTypes.bool,
-  isLoading: PropTypes.bool,
-};
 
 export default LeftSideImagePage;

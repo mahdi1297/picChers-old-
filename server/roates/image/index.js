@@ -1,25 +1,24 @@
 const express = require("express");
 const { getUserById } = require("./../../models/users");
-const { body, param, validationResult } = require( "express-validator");
+const { body, param, validationResult } = require("express-validator");
 const {
   getAllImages,
   getImageById,
   insertImage,
   getRelatedImages,
-} = require( "./../../models/imagesModel");
+} = require("./../../models/imagesModel");
 
 const route = express.Router();
 
 route.get("/", async (req, res) => {
-  try{
+  try {
     const result = await getAllImages();
-    if(result.length ===0){
-      return res.status(400).json({ message: "no image found" });  
+    if (result.length === 0) {
+      return res.status(400).json({ message: "no image found" });
     }
     res.json({ status: 200, result });
-  }
-  catch(err){
-    res.status(400).json({ message: 'Something bad happened', err });
+  } catch (err) {
+    res.status(400).json({ message: "Something bad happened", err });
   }
 });
 
@@ -27,8 +26,7 @@ route.get(
   "/categories/:tag",
   param("tag").exists().isLength({ min: 2, max: 450 }),
   async (req, res) => {
-
-    const tags = req.query.array.split(',');
+    const tags = req.query.array.split(",");
 
     const relatedImages = await getRelatedImages(tags);
     res.json({ message: "this is images category", relatedImages });
@@ -70,7 +68,7 @@ route.get(
           profileimage: userFromDb.profileimage,
         },
       };
-      res.json({ message: "mahdi alipour", result });
+      res.json({ status: 200, result });
     } catch (error) {
       res.status(404).json({ message: "nothing found" });
     }
@@ -115,4 +113,4 @@ route.post(
     }
   }
 );
-module.exports =  route;
+module.exports = route;

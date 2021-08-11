@@ -1,11 +1,11 @@
-const express =require( "express")
+const express = require("express");
 const {
   getAllBlogsByPagination,
   createBlog,
   getBlogBySlug,
   getAllBlogs,
   updateBlog,
-} =require("./../../models/blog");
+} = require("./../../models/blog");
 const {
   insertBlogCategory,
   getAllImages,
@@ -43,7 +43,7 @@ route.get("/all-blogs", async (req, res) => {
   const blogs = await getAllBlogs();
   if (!blogs || blogs.length === 0)
     return res.status(404).json({ message: "no blog found" });
-  res.json({ blogs });
+  res.json({ status: 200, blogs });
 });
 
 route.get("/blog-categories", async (req, res) => {
@@ -68,12 +68,12 @@ route.get(
     }
 
     try {
-      const getSlug = await getBlogBySlug(slug);
-      if (getSlug.length === 0)
+      const blog = await getBlogBySlug(slug);
+      if (blog.length === 0)
         return res.status(404).json({ message: "blog not found" });
-      res.json({ message: "blog is found successfully", getSlug });
+      res.json({ status: 200, blog });
     } catch (error) {
-      res.status(400).json({ message: "something wrong happend" });
+      res.status(400).json({message: "something wrong happend" });
     }
   }
 );
@@ -125,7 +125,7 @@ route.post("/blog-category", async (req, res) => {
 
   if (!blogCategoryObj) return res.status(400).json({ message: "Bad Request" });
   const createblogCategory = await insertBlogCategory(blogCategoryObj);
-  
+
   if (!createblogCategory)
     return res.status(400).json({ message: "Bad Request" });
   res.json({

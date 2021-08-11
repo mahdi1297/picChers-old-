@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Body, Title, Container, TagItem } from "./style";
 import { FiTag } from "react-icons/fi";
 import { Row } from "../../shared/elements/layout";
@@ -25,10 +24,6 @@ const Tag = ({ tags }) => {
       </Container>
     </Body>
   );
-};
-
-Tag.propTypes = {
-  tags: PropTypes.array.isRequired,
 };
 
 export default Tag;

@@ -5,6 +5,17 @@ export const GET_USER_LOGIN = "GET_USER_LOGIN";
 
 //Images
 export const GET_ALL_IMAGES = "GET_ALL_IMAGES";
+export const GET_IMAGE_BY_ID = 'GET_IMAGE_BY_ID'
+export const CLREAR_IMAGE = 'CLREAR_IMAGE'
+
+//User
+export const GET_USER_BY_ID = 'GET_USER_BY_ID'
+export const GET_USERS_BY_ID = 'GET_USERS_BY_ID'
+export const GET_USER_BY_USERNAME_AND_ID = 'GET_USER_BY_USERNAME_AND_ID'
+
+//Blog
+export const GET_ALL_BLOGS = 'GET_ALL_BLOGS'
+export const GET_BLOG_BY_SLUG = 'GET_BLOG_BY_SLUG'
 
 //Moal
 export const MODAL_OPEN = "MODAL_OPEN";
