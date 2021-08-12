@@ -17,6 +17,9 @@ export const GET_USER_BY_USERNAME_AND_ID = 'GET_USER_BY_USERNAME_AND_ID'
 export const GET_ALL_BLOGS = 'GET_ALL_BLOGS'
 export const GET_BLOG_BY_SLUG = 'GET_BLOG_BY_SLUG'
 
+//Comment
+export const GET_ALL_COMMENTS = 'GET_ALL_COMMENTS' 
+
 //Moal
 export const MODAL_OPEN = "MODAL_OPEN";
 export const MODAL_CLOSE = "MODAL_CLOSE";

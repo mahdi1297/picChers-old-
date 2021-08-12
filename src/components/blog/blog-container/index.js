@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import BlogItem from "../blog-item";
 import { Row } from "./../../../shared/elements/layout";
 import { ItemContainerBody } from "./../style";
 import { TitleH2, TitleH3 } from "./../../../shared/elements/title";
@@ -11,6 +10,7 @@ import { FiChevronRight } from "react-icons/fi";
 import SmallSpinner from "./../../../shared/elements/loaders/small-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBlogsActions } from "./../../../actions/blogActions";
+import Paginate from "../blog-pagination";
 
 const BlogContainer = ({ path, theme }) => {
   const data = useSelector((store) => store.allBlogs);
@@ -46,20 +46,9 @@ const BlogContainer = ({ path, theme }) => {
                   </TitleH3>
                 </Link>
               </Row>
-              <Row justify="space-between">
-                {data &&
-                  data.blogs.map((item) => (
-                    <BlogItem
-                      theme={theme}
-                      key={item._id}
-                      title={item.title}
-                      slug={item.slug}
-                      thumbnail={item.thumbnail}
-                      category={item.categories}
-                    />
-                  ))}
-              </Row>
+              <Row justify="space-between"></Row>
             </ItemContainerBody>
+            <Paginate data={data.blogs}></Paginate>
           </>
         )
       )}

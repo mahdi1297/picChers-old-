@@ -48,12 +48,16 @@ const BlogSingle = () => {
               {data.length !== 0 && data.blog[0].title}
             </TitleH1>
             <Row align={true}>
-              <Image
-                src={data.length !== 0 && data.blog[0].profileimgae}
-                width="35"
-                height="35"
-                radius={"50%"}
-              />
+              {data.length === 0 ? (
+                <SkeletonLoader />
+              ) : (
+                <Image
+                  src={data.blog[0].profileimgae}
+                  width="35"
+                  height="35"
+                  radius={"50%"}
+                />
+              )}
               <Meta theme={theme}>
                 {data.length !== 0 && data.blog[0].authername}
               </Meta>

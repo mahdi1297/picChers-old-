@@ -24,7 +24,7 @@ const UserProfileSidebar = ({
   total_likes,
   imageCount,
   description,
-  userId,
+  userId, 
   isFetching,
   isLoading,
   theme

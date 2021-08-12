@@ -18,6 +18,7 @@ export const Container = styled.div`
   margin-top: -5px;
   width: 100%;
   height: auto;
+  padding: 0;
 `;
 
 export const TagItem = styled.span`

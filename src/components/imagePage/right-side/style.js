@@ -3,23 +3,18 @@ import { colors } from "../../../shared/theme/color";
 
 export const Body = styled.div`
   width: 100%;
-  height: 500px;
-  background: rgb(248, 248, 258);
-  border-left: 1px solid ${colors.default.LIGNT_GRAY};
+  height: auto;
+  display: flex;
   padding: 10px;
-  box-shadow: 0 0 20px rgb(8, 21, 66, 12%);
   ${(props) =>
     props.theme === "yes" &&
     css`
-      background: ${colors.default.BORDER};
-      box-shadow: none;
-      border-radius: 5px & svg {
+      & svg, p, a, div, h1 {
         color: ${colors.default.WHITE_THEME}!important;
       }
     `}
 `;
 export const SideHeader = styled.div`
-  width: 100%;
   height: 60px;
   & img {
     border-radius: 50%;
@@ -49,7 +44,8 @@ export const ImageTitle = styled.h1`
 `;
 
 export const Section = styled.div`
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-top: -7px;
   font-size: 14px;
   color: ${colors.default.GRAY};
   & svg {
@@ -58,9 +54,11 @@ export const Section = styled.div`
 `;
 
 export const Socials = styled.ul`
-  width: 100%;
-  height: 30px;
-  padding: 0;
+  height: 100%;
+  position: relative;
+  top: -15px;
+  display: flex;
+  padding-top: 18px;
   & a {
     display: block;
     width: 40px;

@@ -1,19 +1,11 @@
 import React from "react";
-import { Body, Title, Container, TagItem } from "./style";
-import { FiTag } from "react-icons/fi";
-import { Row } from "../../shared/elements/layout";
+import { Body, Container, TagItem } from "./style";
 import { Link } from "react-router-dom";
 import urlSlug from "url-slug";
 
 const Tag = ({ tags }) => {
   return (
     <Body>
-      <Row align={true}>
-        <Title>
-          <FiTag size={15} />
-          Tags
-        </Title>
-      </Row>
       <Container>
         {tags &&
           tags.map((item, i) => (

@@ -13,9 +13,14 @@ import {
 } from "./style";
 import { Col, Row } from "./../../../shared/elements/layout";
 import useGet from "./../../../queries/useGet";
+// import { useSelector, useDispatch } from "react-redux";
 
 
 const BlogComments = ({ blogSlug, theme }) => {
+
+  // const datas = useSelector()
+
+
   const { data } = useGet(`http://localhost:5000/comments/${blogSlug}`);
 
   return (

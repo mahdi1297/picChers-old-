@@ -7,7 +7,6 @@ import React, {
   Suspense,
 } from "react";
 import PropTypes from "prop-types";
-import SmallSpinner from "../../shared/elements/loaders/small-spinner";
 import SkeletonLoader from "../../shared/elements/loaders/skeleton";
 import {
   Item,
@@ -148,43 +147,37 @@ const GridCard = (props) => {
             </div>
           </Item>
         )}
-        {data.length === 0 ? (
-          <SmallSpinner />
-        ) : (
-          photographerModal && (
-            <PhotoModal
-              onMouseEnter={onMouseEnterHandler}
-              onMouseLeave={onMouseLeaveHandler}
-            >
-              {!data ? (
-                <SmallSpinner />
-              ) : (
-                <>
-                  <Link to={`/user-profile/${ownerId}`}>
-                    <Meta>
-                      <img
-                        width="40"
-                        height="40"
-                        src={data.length !== 0 && data.user.profileimage}
-                        alt={data.length !== 0 && data.user.profileimage}
-                      />
-                      <p>
-                        {data.length !== 0 && data.user.name}{" "}
-                        {data.length !== 0 && data.user.lastname}
-                      </p>
-                      <br />
-                    </Meta>
-                  </Link>
-                  <PhotographerCardInfo
-                    description={data.length !== 0 && data.user.description}
-                    role={data.length !== 0 && data.user.role}
-                    imageCount={data.length !== 0 && data.user.totalposts}
-                    likes={data.length !== 0 && data.user.totallikes}
-                  />
-                </>
-              )}
-            </PhotoModal>
-          )
+        {data.length !== 0 && photographerModal && (
+          <PhotoModal
+            onMouseEnter={onMouseEnterHandler}
+            onMouseLeave={onMouseLeaveHandler}
+          >
+            {data && (
+              <>
+                <Link to={`/user-profile/${ownerId}`}>
+                  <Meta>
+                    <img
+                      width="40"
+                      height="40"
+                      src={data.length !== 0 && data.user.profileimage}
+                      alt={data.length !== 0 && data.user.profileimage}
+                    />
+                    <p>
+                      {data.length !== 0 && data.user.name}{" "}
+                      {data.length !== 0 && data.user.lastname}
+                    </p>
+                    <br />
+                  </Meta>
+                </Link>
+                <PhotographerCardInfo
+                  description={data.length !== 0 && data.user.description}
+                  role={data.length !== 0 && data.user.role}
+                  imageCount={data.length !== 0 && data.user.totalposts}
+                  likes={data.length !== 0 && data.user.totallikes}
+                />
+              </>
+            )}
+          </PhotoModal>
         )}
       </Suspense>
     </>

@@ -3,7 +3,7 @@ import RightSideImagePage from "../../components/imagePage/right-side";
 import ImagePageMain from "../../components/imagePage/main";
 import SmallSpinner from "../../shared/elements/loaders/small-spinner";
 import Head from "../../components/head";
-import { MarginTop, Column, Row } from "../../shared/elements/layout";
+import { MarginTop, Column, Col } from "../../shared/elements/layout";
 import Message from "../../components/message";
 import { LeftSide, RightSide, Container } from "./style";
 import { useParams } from "react-router";
@@ -12,6 +12,10 @@ import { size } from "../../shared/theme/size";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getImageById, clearImageAction } from "../../actions/imagesActions";
+import {
+  ImageTitle,
+} from "../../components/imagePage/right-side/style";
+import Tag from "../../components/tag";
 
 const LeftSideImagePage = lazy(() => {
   return new Promise((resolve) => {
@@ -58,16 +62,20 @@ const ImagePage = () => {
       <Head title="image page | pickchers" />
       <MarginTop margin="100">
         <Container>
-          <Row justify="space-between">
-            <Column size="70">
+          <Col justify="space-between">
+            <Column size="100">
               <Suspense fallback={<></>}>
                 <LeftSide>
                   {data !== null && data.length !== 0 ? (
-                    <LeftSideImagePage
-                      data={true}
-                      image={data.result.path}
+                    <RightSideImagePage
+                      data={data !== null && data.length !== 0 && true}
+                      id={data.result._id}
+                      owner={data.result.owner}
+                      userId={data.result.ownerId}
+                      likes={data.result.likes}
                       isLoading={false}
                       isFetching={false}
+                      theme={theme}
                     />
                   ) : (
                     <SmallSpinner />
@@ -75,27 +83,31 @@ const ImagePage = () => {
                 </LeftSide>
               </Suspense>
             </Column>
-            <Column size="30">
+            <Column size="100">
               <RightSide>
                 {data !== null && data.length !== 0 ? (
-                  <RightSideImagePage
-                    data={data !== null && data.length !== 0 && true}
-                    id={data.result._id}
-                    owner={data.result.owner}
-                    userId={data.result.ownerId}
-                    likes={data.result.likes}
-                    title={data.result.title}
-                    tags={data.result.tags}
+                  <LeftSideImagePage
+                    data={true}
+                    image={data.result.path}
                     isLoading={false}
                     isFetching={false}
-                    theme={theme}
                   />
                 ) : (
                   <SmallSpinner />
                 )}
               </RightSide>
+              <ImageTitle theme={theme}>
+                {data.length !== 0 && data.result.title}
+              </ImageTitle>
+              <MarginTop margin={"10"}>
+                {data.length !== 0 && data.result.tags !== undefined && (
+                  <Tag tags={data.length !== 0 && data.result.tags} />
+                )}
+              </MarginTop>
             </Column>
-          </Row>
+          </Col>
+
+          <MarginTop margin={"40"} />
           <TitleH2 theme={theme} fontSize={size.default.lg}>
             Related Photos
           </TitleH2>

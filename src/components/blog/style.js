@@ -17,19 +17,19 @@ export const Container = styled.div`
 `;
 
 export const ItemContainerBody = styled.div`
-  width: 80%;
+  width: 85%;
   height: auto;
   margin: auto;
-  margin-top: 30px;
+  margin-bottom: 30px;
   padding-top: 50px;
   padding-bottom: 60px;
-  border-bottom: 1px solid #ccc;
 `;
 
 export const Card = styled.div`
   width: 30%;
   height: auto;
   min-height: 300px;
+  margin-top: -20px;
 `;
 export const CardHeader = styled.div`
   width: 100%;
