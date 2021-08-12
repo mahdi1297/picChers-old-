@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import SearchSuggestion from "./search-suggestion";
 import {
@@ -11,33 +12,28 @@ import {
 } from "./style";
 import { Row } from "./../../shared/elements/style";
 import { FiSearch } from "react-icons/fi";
+import { useSelector, useDispatch } from "react-redux";
+import { searchImageAction } from "../../actions/searchActions";
 import { getCall } from "../../api/methods";
 
 const Hero = () => {
-  const [data, setData] = useState("");
   const [searchedVal, setSearchedVal] = useState("");
+  const [data, setData] = useState("");
+
+  const fetchData = async (value) => {
+    const res = await getCall(`image-category/${value}`);
+    setData(res.data);
+  };
 
   useEffect(() => {
     let isActive = true;
     if (isActive) {
-      const fetchData = async () => {
-        try {
-          setTimeout(async () => {
-            if (searchedVal.charAt(0) === "@") {
-              console.log(searchedVal.charAt(0));
-            }
-            const response = await getCall(
-              `images/categories/url?array=${searchedVal}`
-            );
-            setData(response.data.relatedImages);
-          }, 1500);
-        } catch (err) {}
-      };
       if (searchedVal.length !== 0) {
-        fetchData();
+        fetchData(searchedVal);
       }
     }
   }, [searchedVal]);
+
 
   return (
     <Body>
@@ -57,7 +53,9 @@ const Hero = () => {
               <FiSearch size={25} color="#606060" />
             </Button>
           </Row>
-          {searchedVal.length !== 0 && <SearchSuggestion data={data} />}
+          {searchedVal.length !== 0 && data.length !== 0 && (
+            <SearchSuggestion data={data.categories} />
+          )}
         </Insider>
       </InnerBox>
     </Body>

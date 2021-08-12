@@ -4,8 +4,9 @@ const {
   getAll,
   create,
   update,
-} = require( "./../../models/imageCategory");
-const { body, validationResult } = require( "express-validator");
+  getByTitle,
+} = require("./../../models/imageCategory");
+const { body, validationResult } = require("express-validator");
 
 const route = express.Router();
 
@@ -17,6 +18,18 @@ route.get("/", async (req, res) => {
 route.get("/all", async (req, res) => {
   const imageCategories = await getSuitable();
   res.json({ message: "image categories", imageCategories });
+});
+
+route.get("/:title",
+async (req, res) => {
+  const {title} = req.params
+  try{
+    const categories = await getByTitle(title);
+    res.json({ status: 200, categories });
+  }
+  catch(err){
+    res.json({ status: 400, message: 'something bad happened'});
+  }
 });
 
 route.post(
@@ -64,4 +77,4 @@ route.post(
   }
 );
 
-module.exports =  route;
+module.exports = route;

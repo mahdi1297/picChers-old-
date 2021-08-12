@@ -1,4 +1,6 @@
-const {ImageCategorySceham} = require("./../data-access/schemas/imageCategoryScehama");
+const {
+  ImageCategorySceham,
+} = require("./../data-access/schemas/imageCategoryScehama");
 
 const getAll = async () => {
   return new Promise((resolve, reject) => {
@@ -20,6 +22,23 @@ const getSuitable = async () => {
         if (error) reject(error);
         resolve(data);
       });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+const getByTitle = async (title) => {
+  if (!title) return false;
+  const regex = new RegExp(title, 'i') 
+  return new Promise((resolve, reject) => {
+    try {
+      ImageCategorySceham.find(
+        { title: {$regex: regex}, isRemoved: false },
+        (error, data) => {
+          if (error) reject(error);
+          resolve(data);
+        }
+      );
     } catch (error) {
       reject(error);
     }
@@ -60,4 +79,4 @@ const update = (_id, isRemoved) => {
   });
 };
 
-module.exports = { getSuitable, getAll, create, update };
+module.exports = { getSuitable, getAll, create, update, getByTitle };

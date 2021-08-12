@@ -10,6 +10,7 @@ import {
   getUsersReducer,
 } from "./usersReducer";
 import { getAllBlogsReducer, getBlogBySlugReducer } from "./blogReducers";
+import { searchImageReducer } from "./searchReducers";
 
 export const reducer = combineReducers({
   modal: modalReducer,
@@ -22,5 +23,6 @@ export const reducer = combineReducers({
   usersById: getUsersReducer,
   userByUsernameAndId: getUserByIdAndUsernameReducer,
   allBlogs: getAllBlogsReducer,
-  blogBySlug : getBlogBySlugReducer
+  blogBySlug: getBlogBySlugReducer,
+  searchImage: searchImageReducer
 });

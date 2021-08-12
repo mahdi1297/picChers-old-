@@ -20,6 +20,10 @@ export const GET_BLOG_BY_SLUG = 'GET_BLOG_BY_SLUG'
 //Comment
 export const GET_ALL_COMMENTS = 'GET_ALL_COMMENTS' 
 
+//Search
+export const SEARCH_IMAGE  = 'SEARCH_IMAGE'
+export const SEARCH_USER = 'SEARCH_USER'
+
 //Moal
 export const MODAL_OPEN = "MODAL_OPEN";
 export const MODAL_CLOSE = "MODAL_CLOSE";

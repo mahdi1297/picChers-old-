@@ -19,6 +19,8 @@ const breakpointColumnsObj = {
 };
 
 const Container = () => {
+  console.log('something')
+
   const isMounted = useRef(false);
   
   const dispatch = useDispatch();

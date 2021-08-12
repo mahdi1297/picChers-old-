@@ -75,7 +75,6 @@ export const SearchSuggestionBody = styled.div`
   position: relative;
   width: 100%;
   height: auto;
-  min-height: 350px;
   background: #fff;
   box-shadow: 0 19px 27px -1px rgb(8, 21, 66, 32%);
 `;
