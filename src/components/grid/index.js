@@ -95,8 +95,6 @@ const GridCard = (props) => {
     likeMutation.mutate(data);
   };
 
-  // if(data.data) console.log(data.data.user.profileimage)
-
   const pageOffsetHandler = () => window.scrollTo(0, 0);
 
   return (

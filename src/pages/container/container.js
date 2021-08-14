@@ -23,14 +23,15 @@ const Container = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     isMounted.current = true;
-    if(isMounted.current) dispatch(getallImagesAction());
+    if (isMounted.current) dispatch(getallImagesAction());
     return () => {
       isMounted.current = false;
     };
   }, [dispatch]);
-  
+
   const theme = useSelector((store) => store.darkMode);
   const images = useSelector((store) => store.images);
+  const currentUser = useSelector((store) => store.login);
 
   if (theme) {
     if (theme === "no")
@@ -42,7 +43,7 @@ const Container = () => {
   return (
     <>
       <Head title="Home | pickchers" />
-      { images.status > 399 && images.status < 500 && <p>Error</p>}
+      {images.status > 399 && images.status < 500 && <p>Error</p>}
       <Hero />
       {images.length === 0 ? (
         <LoaderSmallSpinner />
@@ -66,6 +67,7 @@ const Container = () => {
                   alt={item.alt}
                   ownerId={item.ownerId}
                   totalLikes={item.totalLikes}
+                  currentUser={currentUser._id}
                   isShownInUserDashboard={false}
                   theme={theme}
                 />

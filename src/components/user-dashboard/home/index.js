@@ -6,7 +6,8 @@ import { Row } from "../../../shared/elements/layout";
 import HomeChart from "./chart";
 import Activity from "./activity";
 import useGet from "../../../queries/useGet";
-import SmallSpinner from './../../../shared/elements/loaders/small-spinner'
+import SmallSpinner from "./../../../shared/elements/loaders/small-spinner";
+import Alert from "../../../shared/elements/alert";
 
 const UserDashboardHome = ({ currentUser }) => {
   const [userData, setUserData] = useState("");
@@ -23,7 +24,11 @@ const UserDashboardHome = ({ currentUser }) => {
   return (
     <>
       <Container background={"#fff"}>
-        {!userData ? (
+        {error ? (
+          <Alert type={"warning"}>
+            please upload your first image to access this page
+          </Alert>
+        ) : !userData ? (
           <SmallSpinner />
         ) : (
           <div style={{ padding: "30px" }}>
