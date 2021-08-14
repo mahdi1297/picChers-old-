@@ -97,7 +97,7 @@ const Paginate = ({ data }) => {
             data={data}
             RenderComponent={Post}
             title="Posts"
-            pageLimit={data.length / 2}
+            pageLimit={Math.ceil(data.length / 3)}
             dataLimit={3}
           />
         </>

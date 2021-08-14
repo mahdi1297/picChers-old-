@@ -8,7 +8,7 @@ const {
 } = require("./../../models/blog");
 const {
   insertBlogCategory,
-  getAllImages,
+  getAllBlogCategories,
 } = require("./../../models/blogCategory");
 const { body, param, query, validationResult } = require("express-validator");
 
@@ -47,7 +47,7 @@ route.get("/all-blogs", async (req, res) => {
 });
 
 route.get("/blog-categories", async (req, res) => {
-  const categories = await getAllImages();
+  const categories = await getAllBlogCategories();
   if (!categories || categories.length === 0)
     return res.status(404).json({ message: "no blog found" });
   res.json({ categories });
@@ -73,7 +73,7 @@ route.get(
         return res.status(404).json({ message: "blog not found" });
       res.json({ status: 200, blog });
     } catch (error) {
-      res.status(400).json({message: "something wrong happend" });
+      res.status(400).json({ message: "something wrong happend" });
     }
   }
 );
@@ -100,19 +100,17 @@ route.post(
 
 route.post(
   "/new-blog",
-  body("blogObject").exists().isLength({ min: 5, max: 3000 }),
   async (req, res) => {
     const blogObject = req.body;
-    const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        message: "Something wrong happened",
-        errors: errors.array(),
-      });
+    if(blogObject.length === 0) {
+      return res.status(400).json({ message: "something happened" });
     }
+
     try {
       const blogCreator = await createBlog(blogObject);
+
+
       res.json({ message: "blog created successfully", blogCreator });
     } catch (err) {
       return res.status(400).json({ message: "please use a unique title" });
@@ -133,5 +131,7 @@ route.post("/blog-category", async (req, res) => {
     createblogCategory,
   });
 });
+
+
 
 module.exports = route;

@@ -70,11 +70,14 @@ const createBlog = (blogObj) => {
   return new Promise((resolve, reject) => {
     try {
       BlogSchema(blogObj)
-        .save()
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((err) => reject(err));
+      .save()
+      .then((data) => {
+        resolve(data);
+        console.log(data)
+      })
+      .catch((err) => {reject(err)
+        console.log(err)});
+      
     } catch (err) {
       reject(err);
     }

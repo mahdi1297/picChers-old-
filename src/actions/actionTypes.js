@@ -17,6 +17,9 @@ export const GET_USER_BY_USERNAME_AND_ID = 'GET_USER_BY_USERNAME_AND_ID'
 export const GET_ALL_BLOGS = 'GET_ALL_BLOGS'
 export const GET_BLOG_BY_SLUG = 'GET_BLOG_BY_SLUG'
 
+//Image category
+export const GET_ALL_IMAGE_CATEGORIES = 'GET_ALL_IMAGE_CATEGORIES'
+
 //Comment
 export const GET_ALL_COMMENTS = 'GET_ALL_COMMENTS' 
 

@@ -1,7 +1,6 @@
-import React from "react";
-import GridCard from './../../grid'
+import React, { useEffect, useState } from "react";
+import GridCard from "./../../grid";
 import Masonry from "react-masonry-css";
-import { allDatas } from "../../../DUMM_DATA";
 import { Row } from "../../../shared/elements/layout";
 import { H1, H3 } from "../../../shared/elements/title/style";
 import { Container } from "../style";
@@ -9,6 +8,10 @@ import { Body, Sidebar, List, P } from "./style";
 import { Button } from "../../../shared/elements/button";
 import { colors } from "../../../shared/theme/color";
 import { FiEdit } from "react-icons/fi";
+import { getUserByIdAndUsernameAction } from "../../../actions/usersAction";
+import { useDispatch, useSelector } from "react-redux";
+import { getCall } from "../../../api/methods";
+import SmallSpinner from "./../../../shared/elements/loaders/small-spinner";
 
 const breakpointColumnsObj = {
   default: 3,
@@ -19,7 +22,25 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const UserDashboardPhotos = () => {
+const UserDashboardPhotos = ({ currentUser }) => {
+  const [tags, setTags] = useState();
+  const data = useSelector((store) => store.userByUsernameAndId);
+  const theme = useSelector((store) => store.darkMode);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(
+        getUserByIdAndUsernameAction(currentUser.username, currentUser._id)
+      );
+    }
+    const fetchTags = async () => {
+      const response = await getCall("image-category/all");
+      setTags(response);
+    };
+    fetchTags();  
+  }, [currentUser, dispatch]);
+
   return (
     <>
       <Container background="#f5f5f5" padding="20px">
@@ -30,7 +51,7 @@ const UserDashboardPhotos = () => {
             </H3>
             <Button
               block={"block"}
-              color={'#808080'}
+              color={"#808080"}
               background={colors.default.LIGHT_BLUE_THEME}
               size={"md"}
             >
@@ -45,36 +66,47 @@ const UserDashboardPhotos = () => {
             </ul>
             <P>Tags</P>
             <ul>
-              <List>Nature</List>
-              <List>Famiy</List>
-              <List>Home</List>
-              <List>Book</List>
+              {tags ? (
+                tags.data.imageCategories.map((item) => (
+                  <List key={item._id}>{item.title}</List>
+                ))
+              ) : (
+                <SmallSpinner />
+              )}
             </ul>
           </Sidebar>
           <Body>
             <H1 color="#404040" fontSize="22px">
-              You Have About 158 Photos
+              You Have About {currentUser.totalposts} Photos
             </H1>
-            <Masonry
-              breakpointCols={breakpointColumnsObj}
-              className="my-masonry-grid"
-              columnClassName="my-masonry-grid_column"
-            >
-              {allDatas.map((item) => (
-                <GridCard
-                  key={item.id}
-                  id={item.id}
-                  image={item.image}
-                  user={item.user}
-                  likes={item.likes}
-                  userProfile={item.userProfile}
-                  description={item.description}
-                  imageCount={item.imageCount}
-                  role={item.role}
-                  isShownInUserDashboard={true}
-                />
-              ))}
-            </Masonry>
+
+            {data.length !== 0 && (
+              <Masonry
+                breakpointCols={breakpointColumnsObj}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+                style={{ display: "flex" }}
+              >
+                {data.length !== 0 &&
+                  data.userImages.map((item) => (
+                    <div key={item._id} style={{ margin: "8px" }}>
+                      <GridCard
+                        key={item._id}
+                        id={item._id}
+                        image={item.path}
+                        likes={item.likes}
+                        tags={item.tags}
+                        title={item.title}
+                        alt={item.alt}
+                        ownerId={item.ownerId}
+                        isShownInUserDashboard={true}
+                        theme={theme}
+                        currentUser={currentUser && currentUser._id}
+                      />
+                    </div>
+                  ))}
+              </Masonry>
+            )}
           </Body>
         </Row>
       </Container>

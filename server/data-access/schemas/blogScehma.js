@@ -51,7 +51,7 @@ const BlogSchema = new Schema({
     maxLength: 3000,
   },
   categories: {
-    type: String,
+    type: Array,
     required: true,
     minLength: 5,
     maxLength: 3000,

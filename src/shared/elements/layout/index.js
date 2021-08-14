@@ -8,6 +8,7 @@ export const Row = styled.div`
   justify-content: ${(props) => props.justify};
   ${(props) => props.direction && `flex-direction: ${props.direction};`};
   ${(props) => props.align && "align-items: center;"};
+  ${(props) => props.padding && `padding: ${props.padding}`};
 `;
 
 export const Column = styled.div`
@@ -27,6 +28,7 @@ export const Col = styled.div`
   justify-content: ${(props) => props.justify};
   ${(props) => props.direction && `flex-direction: ${props.direction};`};
   ${(props) => props.align && "align-items: center;"};
+  ${(props) => props.padding && `padding: ${props.padding}` };
 `;
 
 export const Container = styled.div`

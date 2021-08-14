@@ -19,6 +19,10 @@ const HeaderAvatar = ({ currentUser, theme }) => {
     window.location.href = "/";
   };
 
+  const redirectHandler = () => {
+    window.location.href = "/account";
+  };
+
   return (
     <>
       {currentUser && (
@@ -52,11 +56,11 @@ const HeaderAvatar = ({ currentUser, theme }) => {
                 <FiPocket />
               </Link>
             </AvatarList>
-            <AvatarList>
-              <Link to="/">
+            <AvatarList onClick={redirectHandler}>
+              <span>
                 Settings
                 <FiSettings />
-              </Link>
+              </span>
             </AvatarList>
             <AvatarList onClick={signOutHandler}>
               <Link to="/">

@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Container, MarginTop, Row } from "./../../../shared/elements/layout";
 import { InputGroup, SelectGroup } from "../../../shared/elements/inputGroup";
 import { TitleH1 } from "./../../../shared/elements/title";
 import { Button } from "./../../../shared/elements/button";
 import CKEditors from "react-ckeditor-component";
-import { colors } from "./../../../shared/theme/color";
+import useGet from "../../../queries/useGet";
+import Swal from "sweetalert2";
 import urlSlug from "url-slug";
+import { colors } from "./../../../shared/theme/color";
 import { size } from "./../../../shared/theme/size";
 import { useMutation } from "react-query";
-import useGet from "../../../queries/useGet";
 import { postCall } from "./../../../api/methods";
 import { useSelector } from "react-redux";
 
 const NewBlog = ({ width }) => {
   const [content, setContent] = useState("content");
-
   const currentUser = useSelector((state) => state.login);
 
   const {
@@ -23,7 +23,7 @@ const NewBlog = ({ width }) => {
     isLoading,
     isFetching,
     error: categoryError,
-  } = useGet("http://localhost:5000/image-category/all");
+  } = useGet("http://localhost:5000/blog/blog-categories");
 
   const createBlogRequset = useMutation((blog) =>
     postCall(blog, "blog/new-blog")
@@ -35,6 +35,23 @@ const NewBlog = ({ width }) => {
     reset,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (createBlogRequset.isSuccess) {
+      Swal.fire({
+        title: "Blog uy=pdated successfully",
+        icon: "success",
+        timer: 2000,
+      });
+    }
+    if (createBlogRequset.isError) {
+      Swal.fire({
+        title: "Something bad happeng",
+        icon: "error",
+        timer: 2000,
+      });
+    }
+  }, [createBlogRequset.isError, createBlogRequset.isSuccess]);
 
   const onChange = (evt) => {
     const newContent = evt.editor.getData();
@@ -57,9 +74,9 @@ const NewBlog = ({ width }) => {
       thumbnail: data.thumbnail,
       slug: urlSlug(data.title),
       content: content,
-      authername: currentUser[0].name + " " + currentUser[0].lastname,
-      username: currentUser[0].username,
-      profileimgae: currentUser[0].profileimage,
+      authername: currentUser.name + " " + currentUser.lastname,
+      username: currentUser.username,
+      profileimgae: currentUser.profileimage,
       creationDate: year + "/" + month + "/" + date,
       categories: data.categories,
     };
@@ -109,13 +126,12 @@ const NewBlog = ({ width }) => {
         />
         <SelectGroup
           label={"Category"}
-          data={categoryData && categoryData.data.imageCategories}
+          data={categoryData && categoryData.data.categories}
           register={{ ...register("categories", { required: true }) }}
           error={errors.categories}
           isLoading={isLoading}
           isFetching={isFetching}
           dataError={categoryError}
-          multiple={true}
         />
         <MarginTop margin="50">
           <CKEditors

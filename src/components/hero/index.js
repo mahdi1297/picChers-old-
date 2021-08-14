@@ -39,7 +39,7 @@ const Hero = () => {
         <Insider>
           <MainTitle>PicChers</MainTitle>
           <SupportTitle>
-            The world biggest media to share stock image
+            A media to share stock image
           </SupportTitle>
           <Row align={true} justify="space-between">
             <Input

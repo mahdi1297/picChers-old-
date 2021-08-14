@@ -65,7 +65,7 @@ const GridCard = (props) => {
     return () => {
       isMounted.current = false;
     };
-  }, [ likes, ownerId]);
+  }, [likes, ownerId]);
 
   const addToPocketHandler = useCallback(() => {
     let isMounted = true;
@@ -91,8 +91,10 @@ const GridCard = (props) => {
       likesCount: likes + 1,
       userId: currentUser,
     };
-    setLikesAmounts(likes + 1);
-    likeMutation.mutate(data);
+    if (!isShownInUserDashboard) {
+      setLikesAmounts(likes + 1);
+      likeMutation.mutate(data);
+    }
   };
 
   const pageOffsetHandler = () => window.scrollTo(0, 0);
@@ -100,7 +102,7 @@ const GridCard = (props) => {
   return (
     <>
       <Suspense fallback={<></>}>
-        { !data ? (
+        {!data ? (
           <SkeletonLoader />
         ) : (
           <Item theme={theme}>
@@ -127,21 +129,12 @@ const GridCard = (props) => {
                       <Image
                         width="40"
                         height="40"
-                        src={
-                          data.data && 
-                          data.data.user.profileimage
-                        }
-                        alt={
-                          data.data && 
-                          data.data.user.username
-                        }
+                        src={data.data && data.data.user.profileimage}
+                        alt={data.data && data.data.user.username}
                         onMouseEnter={onMouseEnterHandler}
                         onMouseLeave={onMouseLeaveHandler}
                       />
-                      <span>
-                        {data.data &&
-                          data.data.user.username}
-                      </span>
+                      <span>{data.data && data.data.user.username}</span>
                     </Meta>
                     <Button>
                       <FiDownload size={15} />
@@ -161,7 +154,6 @@ const GridCard = (props) => {
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
           >
-            
             {data && (
               <>
                 <Link to={`/user-profile/${ownerId}`}>
@@ -173,28 +165,20 @@ const GridCard = (props) => {
                       alt={data.data && data.data.user.profileimage}
                     />
                     <p>
-                      {data.data && data.data.user.name }{" "}
+                      {data.data && data.data.user.name}{" "}
                       {data.data && data.data.user.lastname}
                     </p>
                     <br />
                   </Meta>
                 </Link>
                 <PhotographerCardInfo
-                  description={
-                    data.data && data.data.user.description
-                  }
-                  role={
-                    data.data && data.data.user.role
-                  }
-                  imageCount={
-                    data.data && data.data.user.totalposts
-                  }
-                  likes={
-                    data.data && data.data.user.totallikes
-                  }
+                  description={data.data && data.data.user.description}
+                  role={data.data && data.data.user.role}
+                  imageCount={data.data && data.data.user.totalposts}
+                  likes={data.data && data.data.user.totallikes}
                 />
               </>
-            )} 
+            )}
           </PhotoModal>
         )}
       </Suspense>

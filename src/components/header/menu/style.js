@@ -111,7 +111,7 @@ export const AvatarList = styled.li`
   margin-bottom: 5px;
   font-size: 14px;
   color: ${colors.default.BLACK};
-  & a {
+  & a, span {
     padding: 7px;
     display: flex;
     align-items: center;
@@ -122,5 +122,8 @@ export const AvatarList = styled.li`
   }
   &:hover {
     background: ${colors.default.SUPPORT_THEME};
+  }
+  & span{
+    margin: 0; 
   }
 `;

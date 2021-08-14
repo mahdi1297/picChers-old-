@@ -42,7 +42,7 @@ BlogItem.propTypes = {
   title: PropTypes.string,
   slug: PropTypes.string,
   thumbnail: PropTypes.string,
-  category: PropTypes.string,
+  category: PropTypes.array,
   theme: PropTypes.string,
 };
 

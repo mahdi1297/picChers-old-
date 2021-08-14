@@ -1,10 +1,5 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AdminDashboardSidebar from "./admin/components/sidebar";
 import UserDashboardSidebar from "./components/user-dashboard/sidebar";
 import SmallSpinner from "./shared/elements/loaders/small-spinner";
@@ -13,6 +8,7 @@ import Header from "./components/header";
 import BlogSingle from "./components/blog/blog-single";
 import { addUserLoginAction } from "./actions/loginActions";
 import { useDispatch, useSelector } from "react-redux";
+import AccountSettings from "./pages/account-settings";
 
 const Admin = lazy(() => {
   return new Promise((resolve) => {
@@ -110,21 +106,22 @@ const RedirectHandler = () => {
             <Pockets />
           </Suspense>
         </Route>
+        <Route exact path="/account">
+          <Suspense fallback={<SmallSpinner />}>
+            <AccountSettings />
+          </Suspense>
+        </Route>
 
         <Route
           path="/user-dashboard/:layout"
-          render={() =>
-            userData ? (
-              <>
-                <UserDashboardSidebar currentUser={userData} />
-                <Suspense fallback={<SmallSpinner />}>
-                  <UserDashboard currentUser={userData} />
-                </Suspense>
-              </>
-            ) : (
-              <Redirect to="/" />
-            )
-          }
+          render={() => (
+            <>
+              <UserDashboardSidebar currentUser={userData} />
+              <Suspense fallback={<SmallSpinner />}>
+                <UserDashboard currentUser={userData} />
+              </Suspense>
+            </>
+          )}
         />
         <Route
           path="/admin-panel/:layout"
@@ -142,11 +139,11 @@ const RedirectHandler = () => {
           }
         />
         {/* 404 route */}
-        <Route path="*" exact>
+        {/* <Route path="*" exact>
           <br />
           <br />
           <h1>404</h1>
-        </Route>
+        </Route> */}
       </Switch>
     </Router>
   );

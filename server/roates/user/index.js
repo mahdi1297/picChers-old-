@@ -2,8 +2,8 @@ const express = require("express");
 const { body, param, validationResult } = require("express-validator");
 const {
   hashPassword,
-  // comparePassword,
-} = require("./../../helper/bcrypt.helper");
+  comparePassword,
+} = require("./../../../helper/bcrypt.helper");
 const {
   insertUser,
   getUserById,
@@ -16,6 +16,7 @@ const {
   getUserByOwnerId,
   getAllImageLikes,
 } = require("./../../models/imagesModel");
+const { signJwt } = require("./../../../helper/jwt");
 
 const route = express.Router();
 
@@ -62,14 +63,12 @@ route.post(
 );
 
 route.post(
-  "/login",
+  "/logintoken",
   body("username").exists().isLength({ min: 2, max: 300 }),
   body("password").exists().isLength({ min: 2, max: 300 }),
   async (req, res, next) => {
-    // eslint-disable-next-line no-unused-vars
     const { username, password } = req.body;
 
-    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -77,6 +76,7 @@ route.post(
         errors: errors.array(),
       });
     }
+    const token = await signJwt(username, password);
     const user = await getUserByUsername(username);
     const passwordFromDb = user && user._id ? user.password : null;
 
@@ -85,10 +85,72 @@ route.post(
         .status(404)
         .json({ message: "user not found! username or password is wrong" });
     }
+    const comparePasswords = await comparePassword(password, passwordFromDb);
+
+    if (!comparePasswords) {
+      return res
+        .status(404)
+        .json({ message: "user not found! username or password is wrong" });
+    }
+
     if (!user) {
       return res.json({ message: "user not found" });
     }
-    res.json({ status: 200, message: "Successfully logedIn", user });
+    res.json({ status: 200, token });
+  }
+);
+
+route.post(
+  "/login",
+  body("username").exists().isLength({ min: 2, max: 300 }),
+  body("password").exists().isLength({ min: 2, max: 300 }),
+  async (req, res, next) => {
+    // eslint-disable-next-line no-unused-vars
+    const { username, password } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        message: "please send correct information",
+        errors: errors.array(),
+      });
+    }
+    const token = await signJwt(username, password);
+    const user = await getUserByUsername(username);
+    const passwordFromDb = user && user._id ? user.password : null;
+
+    if (!passwordFromDb) {
+      return res
+        .status(404)
+        .json({ message: "user not found! username or password is wrong" });
+    }
+    const comparePasswords = await comparePassword(password, passwordFromDb);
+
+    if (!comparePasswords) {
+      return res
+        .status(404)
+        .json({ message: "user not found! username or password is wrong" });
+    }
+
+    if (!user) {
+      return res.json({ message: "user not found" });
+    }
+    const userData = {
+      _id: user._id,
+      description: user.description,
+      totallikes: user.totallikes,
+      totalposts: user.totalposts,
+      role: user.role,
+      permission: user.permission,
+      profileimage: user.profileimage,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      username: user.username,
+      token: token,
+    };
+
+    res.json({ status: 200, userData });
   }
 );
 
@@ -104,22 +166,22 @@ route.get(
         errors: errors.array(),
       });
     }
-    try{
+    try {
       let likeObj = [];
       let userRole;
-  
+
       const getImages = await getImagesCreatedByUser(_id);
       const userData = await getUserById(`${_id}`);
       const allLikes = await getAllImageLikes(_id);
       const totalLikes = allLikes.filter((x) => x.ownerId === _id);
-  
+
       totalLikes.forEach((item) => likeObj.push(item.likes));
-  
+
       const reducer = (accumulator, curr) => accumulator + curr;
       const likesSum = likeObj.reduce(reducer);
-  
+
       if (!userData) return res.status(404).json({ message: "user not found" });
-  
+
       if (likesSum < 500) {
         userRole = "begginer";
       }
@@ -132,7 +194,7 @@ route.get(
       if (likesSum > 2000) {
         userRole = "expert";
       }
-  
+
       const user = {
         _id: userData._id,
         profileimage: userData.profileimage,
@@ -147,8 +209,7 @@ route.get(
         username: userData.username,
       };
       res.json({ status: 200, user });
-    }
-    catch(err){
+    } catch (err) {
       res.status(400).json({ message: "something bad happened" });
     }
   }
@@ -170,10 +231,14 @@ route.get(
         errors: errors.array(),
       });
     }
-    const user = await getUserByUsername(username);
-    const userId = user && user._id;
-    const userImages = await getUserByOwnerId(userId);
-    res.json({ message: "some messages here", userImages });
+    try {
+      const user = await getUserByUsername(username);
+      const userId = user && user._id;
+      const userImages = await getUserByOwnerId(userId);
+      res.json({ status: 200, userImages });
+    } catch (err) {
+      res.status(400).json({ message: "something went wron" });
+    }
   }
 );
 

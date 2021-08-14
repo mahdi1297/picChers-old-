@@ -47,7 +47,9 @@ const UserProfleMain = ({
         <TitleH2 theme={theme} fontSize={"20px"}>
           Suggestion
         </TitleH2>
-        <PerfectScrollbar>
+        <PerfectScrollbar
+        onScrollPassive={() => console.log('passive')}
+        >
           <SuggestionBody theme={theme}>
             {suggestion &&
               suggestion.map((item) => (

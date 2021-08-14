@@ -10,6 +10,7 @@ import {
   getUsersReducer,
 } from "./usersReducer";
 import { getAllBlogsReducer, getBlogBySlugReducer } from "./blogReducers";
+import { getAllImageCateogoriesReducer } from "./categoryReducers";
 
 export const reducer = combineReducers({
   modal: modalReducer,
@@ -23,4 +24,5 @@ export const reducer = combineReducers({
   userByUsernameAndId: getUserByIdAndUsernameReducer,
   allBlogs: getAllBlogsReducer,
   blogBySlug: getBlogBySlugReducer,
+  allImageCategories: getAllImageCateogoriesReducer,
 });
