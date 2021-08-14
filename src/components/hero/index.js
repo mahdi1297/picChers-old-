@@ -12,8 +12,6 @@ import {
 } from "./style";
 import { Row } from "./../../shared/elements/style";
 import { FiSearch } from "react-icons/fi";
-import { useSelector, useDispatch } from "react-redux";
-import { searchImageAction } from "../../actions/searchActions";
 import { getCall } from "../../api/methods";
 
 const Hero = () => {

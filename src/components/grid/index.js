@@ -22,10 +22,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToPocketAction } from "./../../actions/pocketActions";
 import { useMutation } from "react-query";
 import { allDatas } from "./../../DUMM_DATA";
-import { postCall } from "../../api/methods";
+import { getCall, postCall } from "../../api/methods";
 import { colors } from "../../shared/theme/color";
 import { Link } from "react-router-dom";
-import { getUsersByIdAction } from "./../../actions/usersAction";
 import { FiHeart, FiPocket, FiDownload, FiEdit } from "react-icons/fi";
 
 const Image = lazy(() => {
@@ -49,7 +48,7 @@ const GridCard = (props) => {
   const [photographerModal, setPhotographerModal] = useState(false);
   const [likesAmount, setLikesAmounts] = useState(0);
   const selectPockets = useSelector((store) => store.pocket);
-  const data = useSelector((store) => store.usersById);
+  const [data, setData] = useState("");
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
 
@@ -57,7 +56,8 @@ const GridCard = (props) => {
     isMounted.current = true;
     if (isMounted.current) {
       const fetchApi = async (ownerId) => {
-        dispatch(getUsersByIdAction(ownerId));
+        const res = await getCall(`user/${ownerId}`);
+        setData(res);
       };
       setLikesAmounts(likes);
       fetchApi(ownerId);
@@ -65,7 +65,7 @@ const GridCard = (props) => {
     return () => {
       isMounted.current = false;
     };
-  }, [dispatch, likes, ownerId]);
+  }, [ likes, ownerId]);
 
   const addToPocketHandler = useCallback(() => {
     let isMounted = true;
@@ -95,12 +95,14 @@ const GridCard = (props) => {
     likeMutation.mutate(data);
   };
 
+  // if(data.data) console.log(data.data.user.profileimage)
+
   const pageOffsetHandler = () => window.scrollTo(0, 0);
 
   return (
     <>
       <Suspense fallback={<></>}>
-        {data.length === 0 ? (
+        { !data ? (
           <SkeletonLoader />
         ) : (
           <Item theme={theme}>
@@ -127,12 +129,21 @@ const GridCard = (props) => {
                       <Image
                         width="40"
                         height="40"
-                        src={data.length !== 0 && data.user.profileimage}
-                        alt={data.length !== 0 && data.user.username}
+                        src={
+                          data.data && 
+                          data.data.user.profileimage
+                        }
+                        alt={
+                          data.data && 
+                          data.data.user.username
+                        }
                         onMouseEnter={onMouseEnterHandler}
                         onMouseLeave={onMouseLeaveHandler}
                       />
-                      <span>{data.length !== 0 && data.user.username}</span>
+                      <span>
+                        {data.data &&
+                          data.data.user.username}
+                      </span>
                     </Meta>
                     <Button>
                       <FiDownload size={15} />
@@ -152,6 +163,7 @@ const GridCard = (props) => {
             onMouseEnter={onMouseEnterHandler}
             onMouseLeave={onMouseLeaveHandler}
           >
+            
             {data && (
               <>
                 <Link to={`/user-profile/${ownerId}`}>
@@ -159,24 +171,32 @@ const GridCard = (props) => {
                     <img
                       width="40"
                       height="40"
-                      src={data.length !== 0 && data.user.profileimage}
-                      alt={data.length !== 0 && data.user.profileimage}
+                      src={data.data && data.data.user.profileimage}
+                      alt={data.data && data.data.user.profileimage}
                     />
                     <p>
-                      {data.length !== 0 && data.user.name}{" "}
-                      {data.length !== 0 && data.user.lastname}
+                      {data.data && data.data.user.name }{" "}
+                      {data.data && data.data.user.lastname}
                     </p>
                     <br />
                   </Meta>
                 </Link>
                 <PhotographerCardInfo
-                  description={data.length !== 0 && data.user.description}
-                  role={data.length !== 0 && data.user.role}
-                  imageCount={data.length !== 0 && data.user.totalposts}
-                  likes={data.length !== 0 && data.user.totallikes}
+                  description={
+                    data.data && data.data.user.description
+                  }
+                  role={
+                    data.data && data.data.user.role
+                  }
+                  imageCount={
+                    data.data && data.data.user.totalposts
+                  }
+                  likes={
+                    data.data && data.data.user.totallikes
+                  }
                 />
               </>
-            )}
+            )} 
           </PhotoModal>
         )}
       </Suspense>

@@ -48,22 +48,21 @@ const UserProfile = () => {
             isFetching={data.length === 0 ? true : false}
             theme={theme}
           />
-          {data.length === 0 ? (
+          {data.length ===  0 ? (
             <SmallSpinner />
           ) : (
             <UserProfleMain
               isData={true}
-              id={data.length !== 0 && data.user._id}
               username={data.length !== 0 && data.user.username}
-              isFetching={data.length === 0 ? true : false}
-              isLoading={data.length === 0 ? true : false}
+              ownerId={data.length !== 0 && data.user._id}
+              userData={data}
               theme={theme}
             />
-          )}
+          )} 
           <div>1</div>
         </Row>
       </Body>
-      {(data.length === 0) | (data === null) | (data === undefined) && (
+      {data === null | (data === undefined) && (
         <p
           style={{
             position: "relative",

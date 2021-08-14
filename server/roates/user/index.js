@@ -104,48 +104,53 @@ route.get(
         errors: errors.array(),
       });
     }
-    let likeObj = [];
-    let userRole;
-
-    const getImages = await getImagesCreatedByUser(_id);
-    const userData = await getUserById(`${_id}`);
-    const allLikes = await getAllImageLikes(_id);
-    const totalLikes = allLikes.filter((x) => x.ownerId === _id);
-
-    totalLikes.forEach((item) => likeObj.push(item.likes));
-
-    const reducer = (accumulator, curr) => accumulator + curr;
-    const likesSum = likeObj.reduce(reducer);
-
-    if (!userData) return res.status(404).json({ message: "user not found" });
-
-    if (likesSum < 500) {
-      userRole = "begginer";
+    try{
+      let likeObj = [];
+      let userRole;
+  
+      const getImages = await getImagesCreatedByUser(_id);
+      const userData = await getUserById(`${_id}`);
+      const allLikes = await getAllImageLikes(_id);
+      const totalLikes = allLikes.filter((x) => x.ownerId === _id);
+  
+      totalLikes.forEach((item) => likeObj.push(item.likes));
+  
+      const reducer = (accumulator, curr) => accumulator + curr;
+      const likesSum = likeObj.reduce(reducer);
+  
+      if (!userData) return res.status(404).json({ message: "user not found" });
+  
+      if (likesSum < 500) {
+        userRole = "begginer";
+      }
+      if (likesSum > 500 && likesSum < 5000) {
+        userRole = "intermediate";
+      }
+      if (likesSum > 5000 && likesSum < 20000) {
+        userRole = "professional";
+      }
+      if (likesSum > 2000) {
+        userRole = "expert";
+      }
+  
+      const user = {
+        _id: userData._id,
+        profileimage: userData.profileimage,
+        description: userData.description,
+        totallikes: likesSum,
+        totalposts: getImages,
+        role: userRole,
+        permission: userData.permission,
+        name: userData.name,
+        lastname: userData.lastname,
+        email: userData.email,
+        username: userData.username,
+      };
+      res.json({ status: 200, user });
     }
-    if (likesSum > 500 && likesSum < 5000) {
-      userRole = "intermediate";
+    catch(err){
+      res.status(400).json({ message: "something bad happened" });
     }
-    if (likesSum > 5000 && likesSum < 20000) {
-      userRole = "professional";
-    }
-    if (likesSum > 2000) {
-      userRole = "expert";
-    }
-
-    const user = {
-      _id: userData._id,
-      profileimage: userData.profileimage,
-      description: userData.description,
-      totallikes: likesSum,
-      totalposts: getImages,
-      role: userRole,
-      permission: userData.permission,
-      name: userData.name,
-      lastname: userData.lastname,
-      email: userData.email,
-      username: userData.username,
-    };
-    res.json({ message: "this user", user });
   }
 );
 

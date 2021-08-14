@@ -13,7 +13,7 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const MasonryContainer = ({ data, theme, login }) => {
+const MasonryContainer = ({ data, theme, login, ownerId }) => {
   return (
     <>
       {data && (
@@ -23,7 +23,7 @@ const MasonryContainer = ({ data, theme, login }) => {
           columnClassName="my-masonry-grid_column"
           style={{ display: "flex" }}
         >
-          {data &&
+          {data.length !== 0 &&
             data.data.userImages.map((item) => (
               <div key={item._id} style={{ margin: "8px" }}>
                 <GridCard

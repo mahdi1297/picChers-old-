@@ -37,7 +37,14 @@ const ImagesSchema = new Schema({
     required: true,
     minLength:2,
     maxLength:450
-  },
+  }
+  // ,
+  // followers: {
+  //   type: Number,
+  //   required: true,
+  //   default: 0,
+  //   maxLength: 20
+  // }
 });
 
 

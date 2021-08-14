@@ -12,7 +12,6 @@ import PerfectScrollbar from "@opuscapita/react-perfect-scrollbar";
 import axios from "axios";
 
 const UserProfleMain = ({
-  isData,
   ownerId,
   username,
   isFetching,
@@ -75,7 +74,9 @@ const UserProfleMain = ({
         <SmallSpinner />
       ) : (
         <MasornryBody>
-          <MasonryContainer data={data} theme={theme} login={login} />
+          {data.length !== 0 && (
+            <MasonryContainer data={data} ownerId={ownerId} theme={theme} login={login} />
+          )}
         </MasornryBody>
       )}
     </Body>
