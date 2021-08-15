@@ -39,6 +39,18 @@ const getRelatedImages = (category) => {
     });
   });
 };
+const getImagesByTag = (tag) => {
+  if (!tag) return false;
+
+  return new Promise((resolve, reject) => {
+    ImagesSchema.find({ tags: Object.values(tag) }, (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    });
+  });
+};
 const insertImage = (imageObj) => {
   return new Promise((resolve, reject) => {
     ImagesSchema(imageObj)
@@ -92,7 +104,7 @@ const getAllImageLikes = (id) => {
         {
           $group: {
             _id: "$_id",
-            "ownerId": { $first: "$ownerId" },
+            ownerId: { $first: "$ownerId" },
             likes: { $sum: "$likes" },
           },
         },
@@ -115,4 +127,5 @@ module.exports = {
   getUserByOwnerId,
   updateImageByLike,
   getAllImageLikes,
+  getImagesByTag,
 };

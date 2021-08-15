@@ -41,8 +41,7 @@ const GridCard = (props) => {
     likes,
     isShownInUserDashboard,
     ownerId,
-    theme,
-    currentUser,
+    theme
   } = props;
 
   const [photographerModal, setPhotographerModal] = useState(false);
@@ -51,6 +50,7 @@ const GridCard = (props) => {
   const [data, setData] = useState("");
   const dispatch = useDispatch();
   const likeMutation = useMutation((like) => postCall(like, "image-likes"));
+  const currentUser = useSelector(store => store.token)
 
   useEffect(() => {
     isMounted.current = true;

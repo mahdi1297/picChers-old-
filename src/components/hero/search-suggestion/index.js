@@ -3,6 +3,7 @@ import { SearchSuggestionBody } from "./../style";
 import SmallSpinner from "./../../../shared/elements/loaders/small-spinner";
 import { Col, Row } from "../../../shared/elements/layout";
 import { Link } from "react-router-dom";
+import urlSlug from 'url-slug'
 
 const SearchSuggestion = ({ data }) => {
   return (
@@ -13,7 +14,7 @@ const SearchSuggestion = ({ data }) => {
         data !== undefined &&
         data.map((item) => (
           <Link
-            to={`/photos/${item._id}`}
+          to={`/category/${urlSlug(item)}`}
             key={item._id}
             style={{ width: "100%" }}
           >

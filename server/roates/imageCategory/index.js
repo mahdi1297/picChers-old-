@@ -5,6 +5,7 @@ const {
   create,
   update,
   getByTitle,
+  getBySlug
 } = require("./../../models/imageCategory");
 const { body, validationResult } = require("express-validator");
 
@@ -25,6 +26,18 @@ async (req, res) => {
   const {title} = req.params
   try{
     const categories = await getByTitle(title);
+    res.json({ status: 200, categories });
+  }
+  catch(err){
+    res.json({ status: 400, message: 'something bad happened'});
+  }
+});
+route.get("/category/:slug",
+async (req, res) => {
+  const {slug} = req.params
+  console.log(slug)
+  try{
+    const categories = await getBySlug(slug);
     res.json({ status: 200, categories });
   }
   catch(err){

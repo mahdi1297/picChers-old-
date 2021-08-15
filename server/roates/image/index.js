@@ -6,6 +6,7 @@ const {
   getImageById,
   insertImage,
   getRelatedImages,
+  getImagesByTag,
 } = require("./../../models/imagesModel");
 
 const route = express.Router();
@@ -27,9 +28,23 @@ route.get(
   param("tag").exists().isLength({ min: 2, max: 450 }),
   async (req, res) => {
     const tags = req.query.array.split(",");
-
     const relatedImages = await getRelatedImages(tags);
     res.json({ message: "this is images category", relatedImages });
+  }
+);
+route.get(
+  "/category/:tag",
+  param("tag").exists().isLength({ min: 2, max: 450 }),
+  async (req, res) => {
+    const tag = req.params;
+
+    try {
+      const images = await getImagesByTag(tag);
+
+      res.json({ status: 200, images });
+    } catch (err) {
+      res.status(400).json({ message: "Something bad happened" });
+    }
   }
 );
 

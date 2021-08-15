@@ -55,6 +55,12 @@ const Pockets = lazy(() => {
   });
 });
 
+const Category = lazy(() => {
+  return new Promise((resolve, reject) => {
+    resolve(import('./pages/category'))
+  })
+})
+
 const RedirectHandler = () => {
   const userToken = localStorage.getItem("token");
   const decode = jwt.decode(JSON.parse(userToken));
@@ -122,6 +128,11 @@ const RedirectHandler = () => {
         <Route exact path="/account">
           <Suspense fallback={<SmallSpinner />}>
             <AccountSettings />
+          </Suspense>
+        </Route>
+        <Route exact path="/category/:slug">
+          <Suspense fallback={<SmallSpinner />}>
+            <Category />
           </Suspense>
         </Route>
 

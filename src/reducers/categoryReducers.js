@@ -1,11 +1,11 @@
-import { GET_ALL_IMAGE_CATEGORIES } from "../actions/actionTypes";
+import { GET_CATEGORY_DATA } from "../actions/actionTypes";
 
 export const getAllImageCateogoriesReducer = (
   state = [],
   { type, payload }
 ) => {
   switch (type) {
-    case GET_ALL_IMAGE_CATEGORIES:
+    case GET_CATEGORY_DATA:
       return payload;
     default:
       return state;

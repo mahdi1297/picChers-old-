@@ -10,7 +10,7 @@ const Tag = ({ tags }) => {
         {tags &&
           tags.map((item, i) => (
             <TagItem key={i}>
-              <Link to={`categories/${urlSlug(item)}`}>{item}</Link>
+              <Link to={`/category/${urlSlug(item)}`}>{item}</Link>
             </TagItem>
           ))}
       </Container>
