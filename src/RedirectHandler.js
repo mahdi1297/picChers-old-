@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AdminDashboardSidebar from "./admin/components/sidebar";
@@ -6,9 +7,11 @@ import SmallSpinner from "./shared/elements/loaders/small-spinner";
 import Navigation from "./components/navigation";
 import Header from "./components/header";
 import BlogSingle from "./components/blog/blog-single";
-import { addUserLoginAction } from "./actions/loginActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AccountSettings from "./pages/account-settings";
+import { postCall } from "./api/methods";
+import { getUserTokenDataAction } from "./actions/loginActions";
+import jwt from "jsonwebtoken";
 
 const Admin = lazy(() => {
   return new Promise((resolve) => {
@@ -53,20 +56,33 @@ const Pockets = lazy(() => {
 });
 
 const RedirectHandler = () => {
-  const loginLocalStorage = localStorage.getItem("login");
-
+  const userToken = localStorage.getItem("token");
+  const decode = jwt.decode(JSON.parse(userToken));
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (loginLocalStorage !== null) {
-      dispatch(addUserLoginAction(JSON.parse(loginLocalStorage)));
-    }
-  }, [dispatch, loginLocalStorage]);
 
-  const userData = useSelector((store) => store.login);
+  console.log("sd;lfkgjnsdlfkjhnsdfkkgj");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (decode !== null) {
+        const request = await postCall(
+          {
+            username: decode.username,
+            email: decode.email,
+          },
+          "user/user-validation"
+        );
+        dispatch(getUserTokenDataAction(request.data.userData));
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const currentUser = useSelector((store) => store.token);
 
   return (
     <Router>
-      <Header currentUser={JSON.parse(loginLocalStorage)} />
+      <Header />
       {/* <Banner /> */}
       <Navigation />
       <Switch>
@@ -116,9 +132,9 @@ const RedirectHandler = () => {
           path="/user-dashboard/:layout"
           render={() => (
             <>
-              <UserDashboardSidebar currentUser={userData} />
+              <UserDashboardSidebar currentUser={currentUser} />
               <Suspense fallback={<SmallSpinner />}>
-                <UserDashboard currentUser={userData} />
+                <UserDashboard currentUser={currentUser} />
               </Suspense>
             </>
           )}
@@ -126,11 +142,9 @@ const RedirectHandler = () => {
         <Route
           path="/admin-panel/:layout"
           render={() =>
-            userData && userData.permission === "Admin" ? (
+            currentUser && currentUser.permission === "Admin" ? (
               <>
-                <AdminDashboardSidebar
-                  currentUser={JSON.parse(loginLocalStorage)}
-                />
+                <AdminDashboardSidebar currentUser={currentUser} />
                 <Suspense fallback={<SmallSpinner />}>
                   <Admin />
                 </Suspense>
@@ -139,11 +153,11 @@ const RedirectHandler = () => {
           }
         />
         {/* 404 route */}
-        {/* <Route path="*" exact>
+        <Route path="*" exact>
           <br />
           <br />
           <h1>404</h1>
-        </Route> */}
+        </Route>
       </Switch>
     </Router>
   );

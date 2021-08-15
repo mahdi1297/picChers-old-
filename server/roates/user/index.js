@@ -11,6 +11,7 @@ const {
   getAllUsers,
   updateUser,
   getImagesCreatedByUser,
+  getUserByUsernameAndEmail,
 } = require("./../../models/users");
 const {
   getUserByOwnerId,
@@ -35,7 +36,6 @@ route.post(
   async (req, res) => {
     const { name, lastname, username, email, profileimage, password } =
       req.body;
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -43,7 +43,6 @@ route.post(
         errors: errors.array(),
       });
     }
-
     try {
       const hashPass = await hashPassword(password);
       const newUserObj = {
@@ -68,7 +67,6 @@ route.post(
   body("password").exists().isLength({ min: 2, max: 300 }),
   async (req, res, next) => {
     const { username, password } = req.body;
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -76,23 +74,25 @@ route.post(
         errors: errors.array(),
       });
     }
-    const token = await signJwt(username, password);
     const user = await getUserByUsername(username);
+    if (!user.email) {
+      return res
+        .status(404)
+        .json({ message: "user not found! username or password is wrong" });
+    }
+    const token = await signJwt(username, user.email);
     const passwordFromDb = user && user._id ? user.password : null;
-
     if (!passwordFromDb) {
       return res
         .status(404)
         .json({ message: "user not found! username or password is wrong" });
     }
     const comparePasswords = await comparePassword(password, passwordFromDb);
-
     if (!comparePasswords) {
       return res
         .status(404)
         .json({ message: "user not found! username or password is wrong" });
     }
-
     if (!user) {
       return res.json({ message: "user not found" });
     }
@@ -101,13 +101,11 @@ route.post(
 );
 
 route.post(
-  "/login",
+  "/user-validation",
   body("username").exists().isLength({ min: 2, max: 300 }),
-  body("password").exists().isLength({ min: 2, max: 300 }),
+  body("email").isEmail(),
   async (req, res, next) => {
-    // eslint-disable-next-line no-unused-vars
-    const { username, password } = req.body;
-
+    const { username, email } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -115,25 +113,9 @@ route.post(
         errors: errors.array(),
       });
     }
-    const token = await signJwt(username, password);
-    const user = await getUserByUsername(username);
-    const passwordFromDb = user && user._id ? user.password : null;
-
-    if (!passwordFromDb) {
-      return res
-        .status(404)
-        .json({ message: "user not found! username or password is wrong" });
-    }
-    const comparePasswords = await comparePassword(password, passwordFromDb);
-
-    if (!comparePasswords) {
-      return res
-        .status(404)
-        .json({ message: "user not found! username or password is wrong" });
-    }
-
+    const user = await getUserByUsernameAndEmail(username, email);
     if (!user) {
-      return res.json({ message: "user not found" });
+      return res.status(400).json({ message: "user not found" });
     }
     const userData = {
       _id: user._id,
@@ -147,9 +129,7 @@ route.post(
       lastname: user.lastname,
       email: user.email,
       username: user.username,
-      token: token,
     };
-
     res.json({ status: 200, userData });
   }
 );
@@ -169,19 +149,14 @@ route.get(
     try {
       let likeObj = [];
       let userRole;
-
       const getImages = await getImagesCreatedByUser(_id);
       const userData = await getUserById(`${_id}`);
       const allLikes = await getAllImageLikes(_id);
       const totalLikes = allLikes.filter((x) => x.ownerId === _id);
-
       totalLikes.forEach((item) => likeObj.push(item.likes));
-
       const reducer = (accumulator, curr) => accumulator + curr;
       const likesSum = likeObj.reduce(reducer);
-
       if (!userData) return res.status(404).json({ message: "user not found" });
-
       if (likesSum < 500) {
         userRole = "begginer";
       }
@@ -194,7 +169,6 @@ route.get(
       if (likesSum > 2000) {
         userRole = "expert";
       }
-
       const user = {
         _id: userData._id,
         profileimage: userData.profileimage,
@@ -223,7 +197,6 @@ route.get(
     // eslint-disable-next-line no-unused-vars
     const id = req.params.id;
     const username = req.params.user;
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

@@ -12,6 +12,7 @@ const getAllUsers = () => {
 
 const updateUser = (id, objectToUpdate) => {
   if (!id || !objectToUpdate) return false;
+  
   const username = objectToUpdate.username;
   const name = objectToUpdate.name;
   const lastname = objectToUpdate.lastname;
@@ -45,6 +46,22 @@ const getUserByUsername = (username) => {
   return new Promise((resolve, reject) => {
     try {
       UserSchema.findOne({ username: username }, (error, data) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(data);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const getUserByUsernameAndEmail = (username, email) => {
+  if (!username || !email) return false;
+  return new Promise((resolve, reject) => {
+    try {
+      UserSchema.findOne({ username: username, email: email }, (error, data) => {
         if (error) {
           reject(error);
         }
@@ -102,4 +119,5 @@ module.exports = {
   getUserById,
   updateUser,
   getImagesCreatedByUser,
+  getUserByUsernameAndEmail
 };

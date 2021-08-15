@@ -9,15 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { applyThemeAction } from "../../../actions/themActions";
 import "./animation.css";
 
-const HeaderMenuNav = ({ currentUser }) => {
+const HeaderMenuNav = () => {
   const [routes, setRoutes] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const [showPocketWindow, setShowPocketWindow] = useState(false);
   const [themVal, setThemeVal] = useState(false);
-  const theme = useSelector(store => store.darkMode)
-
-  const loginLocalStorage = localStorage.getItem("login");
-  const loginData = JSON.parse(loginLocalStorage);
+  const theme = useSelector((store) => store.darkMode);
+  const currentUser = useSelector((store) => store.token);
 
   const dispatch = useDispatch();
 
@@ -63,11 +61,13 @@ const HeaderMenuNav = ({ currentUser }) => {
             className={showPocketWindow ? "active" : "disactive"}
           />
         </List>
-        {loginData && loginData.permission === "Admin" && (
-          <List>
-            <Link to="/admin-panel/home">Admin</Link>
-          </List>
-        )}
+        {currentUser !== null &&
+          currentUser.length !== 0 &&
+          currentUser.permission === "Admin" && (
+            <List>
+              <Link to="/admin-panel/home">Admin</Link>
+            </List>
+          )}
         {routes.map((item, i) =>
           item.path === "" ? (
             <List
@@ -88,7 +88,7 @@ const HeaderMenuNav = ({ currentUser }) => {
             </List>
           )
         )}
-        {!currentUser ? (
+        {(currentUser.length === 0) | (currentUser === null) ? (
           <List>
             <Button>
               <Link to="/auth">Login</Link>

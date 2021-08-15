@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Provider } from "react-redux";
 import store from "./store";
 import RedirectHandler from "./RedirectHandler";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+
 require("dotenv").config();
 
 const queryClient = new QueryClient({
@@ -18,17 +19,6 @@ const queryClient = new QueryClient({
 //REDGATE SQL PROMPT
 function App() {
 
-  console.log('asfjasdhndanfskdjaf')
-
-  const currentUser = localStorage.getItem('token');
-  
-  useEffect(() => {
-    if(currentUser.length !== 0){
-
-    }
-  }, [])
-
-  console.log(JSON.parse(currentUser))
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

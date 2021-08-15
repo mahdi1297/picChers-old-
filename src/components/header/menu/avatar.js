@@ -4,7 +4,6 @@ import { Avatar, AvatarMenu, AvatarList } from "./style";
 import { FiSettings, FiFeather, FiLogOut, FiPocket } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { addUserLoginAction } from "../../../actions/loginActions";
-import PropTypes from "prop-types";
 
 const HeaderAvatar = ({ currentUser, theme }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -75,9 +74,5 @@ const HeaderAvatar = ({ currentUser, theme }) => {
   );
 };
 
-HeaderAvatar.propTypes = {
-  currentUser: PropTypes.object.isRequired,
-  theme: PropTypes.string.isRequired,
-};
 
 export default HeaderAvatar;

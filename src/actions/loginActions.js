@@ -1,5 +1,5 @@
 import { postCall } from "../api/methods";
-import { ADD_LOGIN, GET_LOGIN, GET_USER_LOGIN } from "./actionTypes";
+import { ADD_LOGIN, GET_LOGIN, GET_USER_LOGIN, GET_USER_DATA } from "./actionTypes";
 
 export const getLoginUser = (info) => {
   return async (dispatch, getState) => {
@@ -26,3 +26,9 @@ export const getUserLoginAction = (user) => ({
   type: GET_LOGIN,
   payload: user,
 });
+
+export const getUserTokenDataAction = (user) => ({
+  type: GET_USER_DATA,
+  payload: user,
+});
+

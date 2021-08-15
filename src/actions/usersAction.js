@@ -5,6 +5,7 @@ import {
   GET_USERS_BY_ID,
 } from "./actionTypes";
 
+
 export const getUserByIdAction = (path) => {
   return async (dispatch, getState) => {
     try {
@@ -19,7 +20,7 @@ export const getUsersByIdAction = (id) => {
   return async (dispatch, getState) => {
     try {
       const { data } = await getCall(`user/${id}`);
-      console.log(data)
+      console.log(data);
       await dispatch({ type: GET_USERS_BY_ID, payload: data });
     } catch (err) {
       console.log(err);
@@ -36,4 +37,3 @@ export const getUserByIdAndUsernameAction = (username, id) => {
     }
   };
 };
-

@@ -5,7 +5,7 @@ export const getAllBlogsReducer = (state = [], { type, payload }) => {
     case GET_ALL_BLOGS:
       return payload;
     default:
-      return [];
+      return state;
   }
 };
 
@@ -14,6 +14,6 @@ export const getBlogBySlugReducer = (state = [], { type, payload }) => {
     case GET_BLOG_BY_SLUG:
       return payload;
     default:
-      return [];
+      return state;
   }
 };
