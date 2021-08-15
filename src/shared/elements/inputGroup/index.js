@@ -29,7 +29,7 @@ export const InputGroup = ({
   oninput,
   value,
   min,
-  max
+  max,
 }) => {
   return (
     <Body className={extraCssClass && extraCssClass}>
@@ -78,7 +78,7 @@ export const SelectGroup = ({
   isFetching,
   dataError,
   multiple,
-  max
+  max,
 }) => {
   return (
     <Body className={extraCssClass && extraCssClass}>
@@ -92,10 +92,12 @@ export const SelectGroup = ({
         type={type}
         {...register}
         placeholder={placeholder}
-        multiple={multiple  && true}
+        multiple={multiple && true}
       >
         {data !== undefined &&
-          data.map((item) => <option key={item._id}>{item.name ? item.name : item.title}</option>)}
+          data.map((item) => (
+            <option key={item._id}>{item.name ? item.name : item.title}</option>
+          ))}
       </Select>
       {error && error?.type === "required" && (
         <Error>{EMPTY_FEILD_REQUIRED}</Error>
@@ -128,6 +130,6 @@ export const TextArea = ({
       {error && error?.type === "required" && (
         <Error>{EMPTY_FEILD_REQUIRED}</Error>
       )}
-      </>
+    </>
   );
 };

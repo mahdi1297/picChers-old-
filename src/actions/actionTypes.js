@@ -13,6 +13,7 @@ export const CLREAR_IMAGE = "CLREAR_IMAGE";
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
 export const GET_USERS_BY_ID = "GET_USERS_BY_ID";
 export const GET_USER_BY_USERNAME_AND_ID = "GET_USER_BY_USERNAME_AND_ID";
+export const UPDATE_USER = 'UPDATE_USER'
 
 //Blog
 export const GET_ALL_BLOGS = "GET_ALL_BLOGS";

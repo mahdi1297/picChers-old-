@@ -58,10 +58,9 @@ const Pockets = lazy(() => {
 const RedirectHandler = () => {
   const userToken = localStorage.getItem("token");
   const decode = jwt.decode(JSON.parse(userToken));
+  const currentUser = useSelector((store) => store.token);
   const dispatch = useDispatch();
-
-  console.log("sd;lfkgjnsdlfkjhnsdfkkgj");
-
+  
   useEffect(() => {
     const fetchUserData = async () => {
       if (decode !== null) {
@@ -77,8 +76,6 @@ const RedirectHandler = () => {
     };
     fetchUserData();
   }, []);
-
-  const currentUser = useSelector((store) => store.token);
 
   return (
     <Router>

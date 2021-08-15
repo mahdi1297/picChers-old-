@@ -3,6 +3,7 @@ import {
   GET_USERS_BY_ID,
   GET_USER_BY_USERNAME_AND_ID,
   GET_USER_DATA,
+  UPDATE_USER,
 } from "../actions/actionTypes";
 
 export const getUserDataReducer = (state = [], { type, payload }) => {
@@ -39,6 +40,15 @@ export const getUserByIdAndUsernameReducer = (
 ) => {
   switch (type) {
     case GET_USER_BY_USERNAME_AND_ID:
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export const updateUserReducer = (state = [], { type, payload }) => {
+  switch (type) {
+    case UPDATE_USER:
       return payload;
     default:
       return state;

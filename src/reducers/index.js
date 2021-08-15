@@ -8,6 +8,7 @@ import {
   usersReducer,
   getUserByIdAndUsernameReducer,
   getUsersReducer,
+  updateUserReducer
 } from "./usersReducer";
 import { getAllBlogsReducer, getBlogBySlugReducer } from "./blogReducers";
 import { getAllImageCateogoriesReducer } from "./categoryReducers";
@@ -26,5 +27,6 @@ export const reducer = combineReducers({
   allBlogs: getAllBlogsReducer,
   blogBySlug: getBlogBySlugReducer,
   allImageCategories: getAllImageCateogoriesReducer,
+  updateUser: updateUserReducer,
   token: getTokenDataReducer,
 });

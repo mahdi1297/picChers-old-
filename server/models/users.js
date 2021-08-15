@@ -48,7 +48,9 @@ const getUserByUsername = (username) => {
       UserSchema.findOne({ username: username }, (error, data) => {
         if (error) {
           reject(error);
+          console.log(error)
         }
+        console.log(data)
         resolve(data);
       });
     } catch (error) {

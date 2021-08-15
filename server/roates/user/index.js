@@ -222,7 +222,6 @@ route.post(
   body("lastname").exists().isLength({ min: 2, max: 300 }),
   body("description").exists().isLength({ min: 2, max: 1500 }),
   body("profileimage").exists().isLength({ min: 2, max: 1500 }),
-  body("permission").exists().isLength({ min: 2, max: 60 }),
   async (req, res) => {
     const userObj = req.body;
     const id = userObj._id;

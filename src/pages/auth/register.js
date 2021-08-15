@@ -59,10 +59,10 @@ const Register = () => {
         placeholder="mahdi"
         type="text"
         register={{
-          ...register("name", { required: true, minLength: 8, maxLength: 100 }),
+          ...register("name", { required: true, minLength: 2, maxLength: 100 }),
         }}
         error={errors.name}
-        min={8}
+        min={2}
         max={100}
       />
       <InputGroup
@@ -72,12 +72,12 @@ const Register = () => {
         register={{
           ...register("lastname", {
             required: true,
-            minLength: 8,
+            minLength: 2,
             maxLength: 100,
           }),
         }}
         error={errors.lastname}
-        min={8}
+        min={2}
         max={100}
       />
       <InputGroup
