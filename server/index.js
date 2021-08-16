@@ -10,7 +10,7 @@ const sts = require("strict-transport-security");
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 require("dotenv").config();
 
