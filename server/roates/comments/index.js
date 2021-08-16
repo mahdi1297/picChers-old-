@@ -83,11 +83,11 @@ route.post(
 
 route.post(
   "/",
-  body("blogSlug").exists().isLength({ min: 5, max: 3000 }),
-  body("name").exists().isLength({ min: 5, max: 250 }),
-  body("lastname").exists().isLength({ min: 5, max: 250 }),
-  body("profileimage").exists().isLength({ min: 5, max: 3000 }),
-  body("content").exists().isLength({ min: 5, max: 50000 }),
+  body("blogSlug").exists().isLength({ min: 2, max: 3000 }),
+  body("name").exists().isLength({ min: 2, max: 250 }),
+  body("lastname").exists().isLength({ min: 2, max: 250 }),
+  body("profileimage").exists().isLength({ min: 2, max: 3000 }),
+  body("content").exists().isLength({ min: 2, max: 50000 }),
   async (req, res) => {
     const datas = {
       blogSlug: req.body.blogSlug,
@@ -96,7 +96,7 @@ route.post(
       profileimage: req.body.profileimage,
       content: req.body.content,
     };
-
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({

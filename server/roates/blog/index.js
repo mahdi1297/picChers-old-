@@ -103,6 +103,8 @@ route.post(
   async (req, res) => {
     const blogObject = req.body;
 
+    console.log(blogObject)
+
     if(blogObject.length === 0) {
       return res.status(400).json({ message: "something happened" });
     }
@@ -110,10 +112,12 @@ route.post(
     try {
       const blogCreator = await createBlog(blogObject);
 
+      console.log(blogCreator)
+
 
       res.json({ message: "blog created successfully", blogCreator });
     } catch (err) {
-      return res.status(400).json({ message: "please use a unique title" });
+      return res.status(400).json({ message: "something bad happened" });
     }
   }
 );

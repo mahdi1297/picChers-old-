@@ -20,7 +20,7 @@ export const GET_ALL_BLOGS = "GET_ALL_BLOGS";
 export const GET_BLOG_BY_SLUG = "GET_BLOG_BY_SLUG";
 
 //Image category
-export const GET_CATEGORY_DATA = "GET_ALL_IMAGE_CATEGORIES";
+export const GET_CATEGORY_DATA = "GET_CATEGORY_DATA";
 
 //Comment
 export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS";

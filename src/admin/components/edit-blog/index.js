@@ -25,7 +25,6 @@ const EditBlog = ({ width }) => {
   const [content, setContent] = useState("content");
   const { slug } = useParams();
 
-  //Api calls
   const { data, isLoading, isFetching } = useGet(
     `http://localhost:5000/blog/${slug}`
   );
@@ -37,27 +36,26 @@ const EditBlog = ({ width }) => {
     error: categoryError,
   } = useGet("http://localhost:5000/blog/blog-categories");
 
-  console.log(categoryData && categoryData.data.categories)
-
   const editBlogRequset = useMutation((blog) =>
     postCall(blog, "blog/update-blog")
   );
 
   if (data) {
-    setValue("title", data.data.getSlug[0].title);
+    setValue("title", data.data.blog[0].title);
   }
   const [descriptionVal, setDescriptionVal] = useState("");
   const [mainimageVal, setMainimageVal] = useState("");
   const [thumbnailVal, setThumbnailVal] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [categoriesVal, setCategoriesVal] = useState("");
 
   useEffect(() => {
     if (data) {
-      setDescriptionVal(data.data.getSlug[0].description);
-      setMainimageVal(data.data.getSlug[0].mainimage);
-      setThumbnailVal(data.data.getSlug[0].thumbnail);
-      setCategoriesVal(categoryData && categoryData.data.categories);
-      setContent(data.data.getSlug[0].content);
+      setDescriptionVal(data.data.blog[0].description);
+      setMainimageVal(data.data.blog[0].mainimage);
+      setThumbnailVal(data.data.blog[0].thumbnail);
+      // setCategoriesVal(categoryData && categoryData);
+      setContent(data.data.blog[0].content);
     }
   }, [categoryData, data]);
 
@@ -75,15 +73,15 @@ const EditBlog = ({ width }) => {
 
     await postCall(
       {
-        title: data.data.getSlug[0].title,
+        title: data.data.blog[0].title,
         description: info.description,
         mainimage: info.mainimage,
         thumbnail: info.thumbnail,
-        slug: data.data.getSlug[0].slug,
+        slug: data.data.blog[0].slug,
         content: content,
-        authername: data.data.getSlug[0].authername,
-        username: data.data.getSlug[0].authername,
-        profileimgae: data.data.getSlug[0].profileimgae,
+        authername: data.data.blog[0].authername,
+        username: data.data.blog[0].authername,
+        profileimgae: data.data.blog[0].profileimgae,
         creationDate: year + "/" + month + "/" + date,
         categories: info.categories,
       },

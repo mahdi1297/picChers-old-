@@ -18,7 +18,7 @@ import "./style.css";
 
 const BlogSingle = () => {
   const { slug } = useParams();
-  const currentUser = useSelector((store) => store.login);
+  const currentUser = useSelector((store) => store.token);
   const theme = useSelector((store) => store.darkMode);
   const data = useSelector((store) => store.blogBySlug);
 
@@ -34,6 +34,8 @@ const BlogSingle = () => {
     if (theme === "yes")
       document.getElementById("body").style.background = "#404040";
   }
+
+  console.log(currentUser.length)
 
   return (
     <>

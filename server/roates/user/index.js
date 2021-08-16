@@ -34,7 +34,7 @@ route.post(
   body("username").exists().isLength({ min: 2, max: 300 }),
   body("password").exists().isLength({ min: 5, max: 300 }),
   async (req, res) => {
-    const { name, lastname, username, email, profileimage, password } =
+    const { name, lastname, username, email, password } =
       req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -50,7 +50,6 @@ route.post(
         lastname,
         email,
         username,
-        profileimage,
         password: hashPass,
       };
       const result = await insertUser(newUserObj);

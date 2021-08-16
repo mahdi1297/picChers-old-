@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 
 const NewBlog = ({ width }) => {
   const [content, setContent] = useState("content");
-  const currentUser = useSelector((state) => state.login);
+  const currentUser = useSelector((state) => state.token);
 
   const {
     data: categoryData,

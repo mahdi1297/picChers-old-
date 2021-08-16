@@ -3,6 +3,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { colors } from "../../theme/color";
 import { LoaderSmallSpinner } from "./style";
 
+
+
 const SmallSpinner = ({styles}) => {
   return (
     <LoaderSmallSpinner style={styles}>

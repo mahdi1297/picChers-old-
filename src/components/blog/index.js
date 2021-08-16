@@ -1,6 +1,6 @@
 import React from "react";
 import BlogContainer from "./blog-container";
-import BlogSearch from "./search";
+// import BlogSearch from "./search";
 import { Body, Container } from "./style";
 import { TitleH1 } from "./../../shared/elements/title";
 import { size } from "./../../shared/theme/size";
@@ -17,7 +17,7 @@ const BlogHome = ({ theme }) => {
           >
             Blog
           </TitleH1>
-          <BlogSearch theme={theme} />
+          {/* <BlogSearch theme={theme} /> */}
         </Row>
       </>
       <Container>

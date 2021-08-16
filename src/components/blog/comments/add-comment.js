@@ -68,7 +68,7 @@ const AddComment = ({ currentUser }) => {
           color={colors.bg.WHITE}
           onclick={commentModalHandler}
         >
-          {currentUser ? (
+          {currentUser.length !== 0 ? (
             " Add Comment"
           ) : (
             <Link to="/auth">login/ register to submit a comment</Link>
@@ -86,7 +86,7 @@ const AddComment = ({ currentUser }) => {
         {commentModal && slug && (
           <Modal>
             <form onSubmit={handleSubmit(submitHandler)}>
-              {currentUser !== undefined && (
+              {currentUser.length !== 0 && (
                 <>
                   <InputGroup
                     type="hidden"
