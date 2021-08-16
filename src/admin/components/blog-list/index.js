@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 // /all-blogs
 const BlogList = () => {
   const { data, isLoading, isFetching } = useGet(
-    "http://localhost:5000/blog/all-blogs"
+    `${process.env.PORT}/blog/all-blogs`
   );
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarMenu, AvatarList } from "./style";
-import { FiSettings, FiFeather, FiLogOut, FiPocket } from "react-icons/fi";
+import { FiSettings, FiFeather, FiLogOut} from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { addUserLoginAction } from "../../../actions/loginActions";
 
@@ -47,12 +47,6 @@ const HeaderAvatar = ({ currentUser, theme }) => {
               <Link to="/user-dashboard/home">
                 Profile
                 <FiFeather />
-              </Link>
-            </AvatarList>
-            <AvatarList>
-              <Link to="/pockets">
-                Pockets
-                <FiPocket />
               </Link>
             </AvatarList>
             <AvatarList onClick={redirectHandler}>

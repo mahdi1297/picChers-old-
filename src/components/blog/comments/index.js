@@ -18,10 +18,8 @@ import useGet from "./../../../queries/useGet";
 
 const BlogComments = ({ blogSlug, theme }) => {
 
-  // const datas = useSelector()
 
-
-  const { data } = useGet(`http://localhost:5000/comments/${blogSlug}`);
+  const { data } = useGet(`${process.env.PORT}/comments/${blogSlug}`);
 
   return (
     <>

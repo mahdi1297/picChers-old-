@@ -29,7 +29,7 @@ const UserNewPhoto = ({ id }) => {
     isLoading,
     isFetching,
     error: categoryError,
-  } = useGet("http://localhost:5000/image-category/all");
+  } = useGet(`${process.env.PORT}/image-category/all`);
 
   // eslint-disable-next-line no-unused-vars
 

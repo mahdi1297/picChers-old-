@@ -34,7 +34,7 @@ const EditBlog = ({ width }) => {
     isLoading: categoryIsLoading,
     isFetching: categoryIsFetching,
     error: categoryError,
-  } = useGet("http://localhost:5000/blog/blog-categories");
+  } = useGet(`${process.env.PORT}/blog/blog-categories`);
 
   const editBlogRequset = useMutation((blog) =>
     postCall(blog, "blog/update-blog")

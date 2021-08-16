@@ -29,7 +29,7 @@ const UserProfleMain = ({
     if (isMounted) {
       const fetchData = async (username, ownerId) => {
         const request = await axios.get(
-          `http://localhost:5000/user/${username}/${ownerId}`
+          `${process.env.PORT}/user/${username}/${ownerId}`
         );
         setData(request);
       };

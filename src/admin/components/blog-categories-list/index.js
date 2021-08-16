@@ -10,7 +10,7 @@ import { FiX } from "react-icons/fi";
 
 const BlogCategoryList = () => {
   const { data, isLoading, isFetching, error } = useGet(
-    "http://localhost:5000/blog/blog-categories"
+    `${process.env.PORT}/blog/blog-categories`
   );
 
   return (

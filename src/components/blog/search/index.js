@@ -22,7 +22,7 @@ const BlogSearch = ({ onclick, searchedVal }) => {
   const [showSearch, setShowSearch] = useState(false);
 
   const { data, isFetching, isLoading, error } = useGet(
-    `http://localhost:5000/blog/all-blogs`
+    `${process.env.PORT}/blog/all-blogs`
   );
 
   useEffect(() => {

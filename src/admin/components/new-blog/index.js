@@ -23,7 +23,7 @@ const NewBlog = ({ width }) => {
     isLoading,
     isFetching,
     error: categoryError,
-  } = useGet("http://localhost:5000/blog/blog-categories");
+  } = useGet(`${process.env.PORT}/blog/blog-categories`);
 
   const createBlogRequset = useMutation((blog) =>
     postCall(blog, "blog/new-blog")
